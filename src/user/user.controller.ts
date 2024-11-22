@@ -17,6 +17,13 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthService } from './auth.service';
 import { Request, Response } from 'express';
 import { RefrshGuradGuard } from 'src/gurds/refrsh-gurad/refrsh-gurad.guard';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiCookieAuth,
+  ApiCreatedResponse,
+  ApiOperation,
+} from '@nestjs/swagger';
 
 @Controller('user')
 export class UserController {
@@ -25,10 +32,27 @@ export class UserController {
     private readonly authService: AuthService,
   ) {}
 
+  @ApiOperation({ summary: 'signs up and creats new user ' })
+  @ApiCreatedResponse()
+  @ApiBody({ type: CreateUserDto })
   @Post('/signup')
   signUp(@Body() createUserDto: CreateUserDto) {
     return this.authService.signUp(createUserDto);
   }
+  @ApiOperation({
+    summary:
+      'signs in and generate auth token 15 mins long and a refresh token ',
+  })
+  @ApiCreatedResponse()
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        email: { type: 'string', example: 'alaa.eltawwyb@hotmail.com' },
+        password: { type: 'string', example: '123123123' },
+      },
+    },
+  })
   @Post('/signin')
   async signIn(
     @Body() { email, password }: Partial<CreateUserDto>,
@@ -70,8 +94,10 @@ export class UserController {
       .status(200)
       .json({ message: 'Sign-out successful' });
   }
+
   @UseGuards(RefrshGuradGuard)
   @Get('acces-token')
+  @ApiCookieAuth('refCookie')
   async getAccessToken(@Req() request: Request, @Res() res: Response) {
     const {
       cookies: { refCookie: refrshToken },

@@ -33,7 +33,7 @@ export class AuthService {
   async signIn(email: string, password: string) {
     const existingUser = await this.UserModdle.findOne({ email: email });
     if (!existingUser)
-      throw new BadRequestException('This email already dosent exsits');
+      throw new BadRequestException('This email dosent exsits');
 
     if (
       !existingUser ||
