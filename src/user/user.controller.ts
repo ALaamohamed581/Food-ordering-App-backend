@@ -62,7 +62,7 @@ export class UserController {
         signed: true,
       })
       .cookie('authCookie', '', {
-        maxAge: 1000 * 60 * 15,
+        maxAge: 0,
         secure: true,
         httpOnly: true,
         signed: true,
