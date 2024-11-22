@@ -62,7 +62,7 @@ export class UserController {
         signed: true,
       })
       .cookie('authCookie', '', {
-        maxAge: 0,
+        maxAge: 1000 * 60 * 15,
         secure: true,
         httpOnly: true,
         signed: true,
@@ -78,16 +78,13 @@ export class UserController {
     } = request;
 
     const authToken = await this.authService.getAuyhToken(refrshToken);
-    console.log(authToken, 'new auth token');
     res
       .cookie('authCookie', authToken, {
-        maxAge: 0,
+        maxAge: 1000 * 60 * 15,
         secure: true,
         httpOnly: true,
       })
       .status(200)
       .json({ message: 'new token accqureid' });
-
-    // console.log(refCookie);
   }
 }
