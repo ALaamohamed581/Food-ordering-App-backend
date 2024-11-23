@@ -5,12 +5,11 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User } from './schemas/user.schena';
+import { User } from '../user/schemas/user.schena';
 import { Model } from 'mongoose';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto } from '../user/dto/create-user.dto';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
-import { UserModule } from './user.module';
 
 @Injectable()
 export class AuthService {

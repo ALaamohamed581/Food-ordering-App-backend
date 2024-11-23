@@ -20,6 +20,8 @@ export class User extends Document {
 
   @Prop({ required: true })
   phoneNumber: string;
+  @Prop()
+  imageUrl: string;
 
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Order' }], default: [] })
   previousOrders: Types.ObjectId[];

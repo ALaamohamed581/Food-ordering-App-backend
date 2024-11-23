@@ -3,34 +3,25 @@ import {
   Get,
   Post,
   Body,
-  Patch,
-  Param,
-  Delete,
-  Put,
   Res,
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { AuthService } from './auth.service';
+
+import { AuthService } from '../auth/auth.service';
 import { Request, Response } from 'express';
 import { RefrshGuradGuard } from 'src/gurds/refrsh-gurad/refrsh-gurad.guard';
 import {
-  ApiBearerAuth,
   ApiBody,
   ApiCookieAuth,
   ApiCreatedResponse,
   ApiOperation,
 } from '@nestjs/swagger';
+import { CreateUserDto } from '../user/dto/create-user.dto';
 
-@Controller('user')
-export class UserController {
-  constructor(
-    private readonly userService: UserService,
-    private readonly authService: AuthService,
-  ) {}
+@Controller('auth')
+export class AuthController {
+  constructor(private readonly authService: AuthService) {}
 
   @ApiOperation({ summary: 'signs up and creats new user ' })
   @ApiCreatedResponse()

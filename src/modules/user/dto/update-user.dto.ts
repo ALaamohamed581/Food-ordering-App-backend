@@ -31,6 +31,9 @@ export class UpdateUserDto {
   @IsOptional()
   @IsString()
   phoneNumber?: string;
+  @IsOptional()
+  @IsString()
+  imageUrl?: string;
 
   @IsOptional()
   @IsArray()

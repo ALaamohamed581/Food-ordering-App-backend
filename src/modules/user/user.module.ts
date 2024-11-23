@@ -3,8 +3,9 @@ import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { User, UserSchema } from './schemas/user.schena';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuthService } from './auth.service';
+import { AuthService } from '../auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
+import { Paggination } from 'src/helpers/Paggination';
 
 @Module({
   imports: [
@@ -12,6 +13,6 @@ import { JwtService } from '@nestjs/jwt';
   ],
 
   controllers: [UserController],
-  providers: [UserService, AuthService, JwtService],
+  providers: [UserService, Paggination],
 })
 export class UserModule {}

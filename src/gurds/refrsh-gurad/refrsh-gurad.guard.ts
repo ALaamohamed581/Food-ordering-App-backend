@@ -9,8 +9,7 @@ export class RefrshGuradGuard implements CanActivate {
     const {
       cookies: { refCookie },
     } = context.switchToHttp().getRequest();
-    console.log(context.switchToHttp().getRequest().cookies);
-    console.log(refCookie);
+
     if (refCookie) {
       return refCookie;
     } else return false;
