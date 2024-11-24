@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
-import { User, UserSchema } from './schemas/user.schena';
+import { User, UserSchema } from './schemas/user.schema';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuthService } from '../auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { Paggination } from 'src/helpers/Paggination';
+import { FilterPipe } from 'src/pipes/filterPipe';
 
 @Module({
   imports: [
@@ -13,6 +13,6 @@ import { Paggination } from 'src/helpers/Paggination';
   ],
 
   controllers: [UserController],
-  providers: [UserService, Paggination],
+  providers: [UserService, FilterPipe, JwtService],
 })
 export class UserModule {}

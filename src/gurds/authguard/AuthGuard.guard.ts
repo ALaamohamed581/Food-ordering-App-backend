@@ -6,7 +6,13 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { JwtService } from '@nestjs/jwt';
-
+declare global {
+  namespace Express {
+    interface Request {
+      userId: string;
+    }
+  }
+}
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(private readonly jwtService: JwtService) {}
@@ -25,6 +31,7 @@ export class AuthGuard implements CanActivate {
       const decoded = this.jwtService.verify(authCookie, {
         secret: process.env.AUTH_TOKEN_SECRET,
       });
+      request.userId = decoded.existingUser._id;
       return true;
     } catch (error) {
       throw new UnauthorizedException('Invalid or expired token');

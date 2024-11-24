@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User } from '../user/schemas/user.schena';
+import { User } from '../user/schemas/user.schema';
 import { Model } from 'mongoose';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import * as argon2 from 'argon2';

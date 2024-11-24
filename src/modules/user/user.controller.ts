@@ -1,16 +1,13 @@
 import {
   Controller,
   Get,
-  Post,
   Body,
   Patch,
   Param,
-  Delete,
-  Put,
-  Res,
-  Req,
   UseGuards,
   Query,
+  Put,
+  Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -26,6 +23,8 @@ import {
   ApiOperation,
 } from '@nestjs/swagger';
 import { AuthGuard } from 'src/gurds/authguard/AuthGuard.guard';
+import { FilterPipe } from 'src/pipes/filterPipe';
+import { UpdatePasswordDTO } from './dto/update-password.dto';
 
 @Controller('users')
 export class UserController {
@@ -40,8 +39,21 @@ export class UserController {
     return this.userService.findOne(id);
   }
   @UseGuards(AuthGuard)
-  @Put(':id')
-  Update(@Param('id') id: string, @Body() user: UpdateUserDto) {
+  @Put()
+  Update(@Req() req: Request, @Body(new FilterPipe()) user: UpdateUserDto) {
+    const id = req.userId;
     return this.userService.update(id, user);
+  }
+  @UseGuards(AuthGuard)
+  @Patch('password')
+  updatedPassword(
+    @Req() req: Request,
+
+    @Body(new FilterPipe()) passowrdsData: UpdatePasswordDTO,
+  ) {
+    const id = req.userId;
+    console.log(passowrdsData);
+    this.userService.updatedPassword(id, passowrdsData);
+    return 'password updated succefuly';
   }
 }
