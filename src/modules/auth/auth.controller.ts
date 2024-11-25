@@ -6,6 +6,7 @@ import {
   Res,
   Req,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 
 import { AuthService } from '../auth/auth.service';
@@ -18,6 +19,7 @@ import {
   ApiOperation,
 } from '@nestjs/swagger';
 import { CreateUserDto } from '../user/dto/create-user.dto';
+import { accessToken } from 'src/Interceptores/AccessToken.intecptor';
 
 @Controller('auth')
 export class AuthController {
@@ -34,16 +36,6 @@ export class AuthController {
     summary:
       'signs in and generate auth token 15 mins long and a refresh token ',
   })
-  @ApiCreatedResponse()
-  @ApiBody({
-    schema: {
-      type: 'object',
-      properties: {
-        email: { type: 'string', example: 'alaa.eltawwyb@hotmail.com' },
-        password: { type: 'string', example: '123123123' },
-      },
-    },
-  })
   @Post('/signin')
   async signIn(
     @Body() { email, password }: Partial<CreateUserDto>,
@@ -56,17 +48,18 @@ export class AuthController {
 
     return res
       .cookie('refCookie', refreshToken, {
-        maxAge: 1000 * 60 * 60 * 24,
+        maxAge: 1000 * 60 * 60 * 24, // 24 hours
         secure: true,
       })
       .cookie('authCookie', authToken, {
-        maxAge: 1000 * 60 * 15,
+        maxAge: 1000 * 60 * 15, // 15 minutes
         secure: true,
         httpOnly: true,
       })
       .status(200)
-      .json({ message: 'Sign-in successful' });
+      .json({ message: 'sign successful' });
   }
+
   @Post('/signout')
   async signOut(@Res() res: Response) {
     return res
@@ -86,22 +79,12 @@ export class AuthController {
       .json({ message: 'Sign-out successful' });
   }
 
-  @UseGuards(RefrshGuradGuard)
+  @UseGuards(RefrshGuradGuard('user'))
   @Get('acces-token')
   @ApiCookieAuth('refCookie')
+  @UseInterceptors(accessToken({ role: 'user' }))
   async getAccessToken(@Req() request: Request, @Res() res: Response) {
-    const {
-      cookies: { refCookie: refrshToken },
-    } = request;
-
-    const authToken = await this.authService.getAuyhToken(refrshToken);
-    res
-      .cookie('authCookie', authToken, {
-        maxAge: 1000 * 60 * 15,
-        secure: true,
-        httpOnly: true,
-      })
-      .status(200)
-      .json({ message: 'new token accqureid' });
+    const id = request.userId;
+    res.send(this.authService.getAuyhToken(id));
   }
 }

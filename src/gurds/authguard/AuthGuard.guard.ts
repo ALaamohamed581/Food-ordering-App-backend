@@ -2,9 +2,9 @@ import {
   CanActivate,
   ExecutionContext,
   Injectable,
+  mixin,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
 import { JwtService } from '@nestjs/jwt';
 declare global {
   namespace Express {
@@ -13,28 +13,32 @@ declare global {
     }
   }
 }
-@Injectable()
-export class AuthGuard implements CanActivate {
-  constructor(private readonly jwtService: JwtService) {}
 
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
-    const request = context.switchToHttp().getRequest();
-    const authCookie = request.cookies?.authCookie;
+export const AuthGuard = (secret: string): any => {
+  @Injectable()
+  class AuthGuardMixin implements CanActivate {
+    constructor(private readonly jwtService: JwtService) {}
 
-    if (!authCookie) {
-      throw new UnauthorizedException('No auth cookie found');
-    }
-
-    try {
-      const decoded = this.jwtService.verify(authCookie, {
-        secret: process.env.AUTH_TOKEN_SECRET,
-      });
-      request.userId = decoded.existingUser._id;
-      return true;
-    } catch (error) {
-      throw new UnauthorizedException('Invalid or expired token');
+    async canActivate(context: ExecutionContext): Promise<boolean> {
+      const request = context.switchToHttp().getRequest();
+      const authCookie = request.cookies?.authCookie;
+      secret === 'admin'
+        ? (secret = process.env.ADMIN_AUTH_TOKEN_SECRET)
+        : (secret = process.env.USER_AUTH_TOKEN_SECRET);
+      if (!authCookie) {
+        throw new UnauthorizedException('No auth cookie found');
+      }
+      try {
+        const decoded = await this.jwtService.verify(authCookie, {
+          secret,
+        });
+        request.userId = decoded.payload._id;
+        return true;
+      } catch (error) {
+        throw new UnauthorizedException('Invalid or expired token');
+      }
     }
   }
-}
+
+  return mixin(AuthGuardMixin);
+};

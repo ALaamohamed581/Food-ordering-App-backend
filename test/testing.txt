@@ -1,0 +1,44 @@
+async signIn(email: string, password: string): Promise<{ refreshToken: string; authToken: string }>;
+async signIn(email: string, password: string, adminMode: boolean): Promise<{ refreshToken: string; authToken: string }>;
+async signIn(email: string, password: string, adminMode: boolean = false): Promise<{ refreshToken: string; authToken: string }> {
+  const UserModel = adminMode ? this.AdminModle : this.UserModdle;
+
+  const existingUser = await UserModel.findOne({ email: email });
+  if (!existingUser) throw new BadRequestException('This email does not exist');
+
+  // Admin-specific check
+  if (adminMode && !existingUser.password.startsWith('$')) {
+    const refreshToken = this.jwt.sign(
+      { email: existingUser.email },
+      {
+        secret: process.env.REFRESH_TOKEN_SECRET,
+        expiresIn: '1d',
+      },
+    );
+    const authToken = this.jwt.sign(
+      { existingUser },
+      { secret: process.env.AUTH_TOKEN_SECRET, expiresIn: '15m' },
+    );
+
+    return { refreshToken, authToken };
+  }
+
+  // Common password verification
+  if (!existingUser || !(await argon2.verify(existingUser.password, password))) {
+    throw new UnauthorizedException('Wrong email or password');
+  }
+
+  const refreshToken = this.jwt.sign(
+    { email: existingUser.email },
+    {
+      secret: process.env.REFRESH_TOKEN_SECRET,
+      expiresIn: '1d',
+    },
+  );
+  const authToken = this.jwt.sign(
+    { existingUser },
+    { secret: process.env.AUTH_TOKEN_SECRET, expiresIn: '15m' },
+  );
+
+  return { refreshToken, authToken };
+}

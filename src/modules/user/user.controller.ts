@@ -10,21 +10,13 @@ import {
   Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { AuthService } from '../auth/auth.service';
 import { Request, Response } from 'express';
 
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiCookieAuth,
-  ApiCreatedResponse,
-  ApiOperation,
-} from '@nestjs/swagger';
+import { ApiCookieAuth } from '@nestjs/swagger';
 import { AuthGuard } from 'src/gurds/authguard/AuthGuard.guard';
 import { FilterPipe } from 'src/pipes/filterPipe';
-import { UpdatePasswordDTO } from './dto/update-password.dto';
+import { UpdatePasswordDTO } from '../../DTOs/update-password.dto';
 
 @Controller('users')
 export class UserController {
@@ -38,13 +30,15 @@ export class UserController {
   getOne(@Param('id') id: string) {
     return this.userService.findOne(id);
   }
-  @UseGuards(AuthGuard)
+  @ApiCookieAuth('authCookie')
+  @UseGuards(AuthGuard(process.env.AUTH_TOKEN_SECRET))
   @Put()
   Update(@Req() req: Request, @Body(new FilterPipe()) user: UpdateUserDto) {
     const id = req.userId;
     return this.userService.update(id, user);
   }
-  @UseGuards(AuthGuard)
+  @ApiCookieAuth('authCookie')
+  @UseGuards(AuthGuard(process.env.AUTH_TOKEN_SECRET))
   @Patch('password')
   updatedPassword(
     @Req() req: Request,
@@ -52,7 +46,6 @@ export class UserController {
     @Body(new FilterPipe()) passowrdsData: UpdatePasswordDTO,
   ) {
     const id = req.userId;
-    console.log(passowrdsData);
     this.userService.updatedPassword(id, passowrdsData);
     return 'password updated succefuly';
   }

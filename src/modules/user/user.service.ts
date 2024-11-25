@@ -8,7 +8,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
 import { Model } from 'mongoose';
-import { UpdatePasswordDTO } from './dto/update-password.dto';
+import { UpdatePasswordDTO } from '../../DTOs/update-password.dto';
 import * as argon2 from 'argon2';
 
 @Injectable()

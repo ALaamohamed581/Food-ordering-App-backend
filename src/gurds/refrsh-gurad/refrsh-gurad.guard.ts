@@ -1,17 +1,44 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { Observable } from 'rxjs';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  mixin,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 
-@Injectable()
-export class RefrshGuradGuard implements CanActivate {
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
-    const {
-      cookies: { refCookie },
-    } = context.switchToHttp().getRequest();
+export const RefrshGuradGuard = (secret: string): any => {
+  @Injectable()
+  class RefrshGuradGuardMixin implements CanActivate {
+    constructor(private readonly jwtService: JwtService) {}
 
-    if (refCookie) {
-      return refCookie;
-    } else return false;
+    async canActivate(context: ExecutionContext): Promise<boolean> {
+      const request = context.switchToHttp().getRequest();
+      const refCookie: string = request.cookies?.refCookie;
+
+      if (!refCookie) {
+        throw new UnauthorizedException('No refresh cookie found');
+      }
+
+      secret === 'admin'
+        ? (secret = process.env.ADMIN_REFRESH_TOKEN_SECRET)
+        : (secret = process.env.USER_REFRESH_TOKEN_SECRET);
+      if (!secret) {
+        throw new UnauthorizedException('Refresh token secret not found');
+      }
+
+      try {
+        const decoded = await this.jwtService.verify(refCookie, {
+          secret,
+        });
+        request.userId = decoded.userId;
+        return true;
+      } catch (error) {
+        console.log(error.message);
+        throw new UnauthorizedException('Invalid or expired refresh token');
+      }
+    }
   }
-}
+
+  return mixin(RefrshGuradGuardMixin);
+};

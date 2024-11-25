@@ -1,12 +1,6 @@
-import {
-  Catch,
-  ArgumentsHost,
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
+import { ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
-import { MyLoggerService } from './my-logger/my-logger.service';
+import { MyLoggerService } from '../modules/my-logger/my-logger.service';
 import { Request, Response } from 'express';
 import { MongooseError } from 'mongoose';
 

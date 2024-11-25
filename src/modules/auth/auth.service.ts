@@ -10,12 +10,15 @@ import { Model } from 'mongoose';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
+import { JWTAuthService } from 'src/utils/JWTAuthServicer.service';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(User.name) private UserModdle: Model<User>,
     private readonly jwt: JwtService,
+    private readonly jwtRes: JWTAuthService,
   ) {}
 
   async signUp(user: CreateUserDto) {
@@ -40,39 +43,21 @@ export class AuthService {
     ) {
       throw new UnauthorizedException('wrong mail or password');
     }
-    const refreshToken = this.jwt.sign(
-      { email: existingUser.email },
-      {
-        secret: process.env.REFRESH_TOKEN_SECRET,
-        expiresIn: '1d',
-      },
-    );
-    const authToken = this.jwt.sign(
-      { existingUser },
-      { secret: process.env.AUTH_TOKEN_SECRET, expiresIn: '15m' },
-    );
 
-    return { refreshToken, authToken };
+    return this.jwtRes.securedResponse({
+      refSecret: process.env.USER_REFRESH_TOKEN_SECRET,
+      authSecret: process.env.USER_AUTH_TOKEN_SECRET,
+      payload: existingUser,
+    });
   }
 
-  async getAuyhToken(refreshtoken: string) {
-    if (
-      !this.jwt.verify(refreshtoken, {
-        secret: process.env.REFRESH_TOKEN_SECRET,
-      })
-    ) {
-      return new UnauthorizedException('please sign in first');
-    }
-    let { email } = await this.jwt.decode(refreshtoken);
-    const user = await this.UserModdle.findOne({ email });
+  async getAuyhToken(id: string) {
+    const user = await this.UserModdle.findById(id);
 
     if (!user) {
       return new NotFoundException('user has been deleted or dose not exsits');
     }
-    const authToken = this.jwt.sign(
-      { user },
-      { secret: process.env.AUTH_TOKEN_SECRET, expiresIn: '15m' },
-    );
-    return authToken;
+
+    return;
   }
 }
