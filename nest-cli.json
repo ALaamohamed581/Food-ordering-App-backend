@@ -5,9 +5,17 @@
 
   "compilerOptions": {
     "assets": ["**/*.pug"],
-    "watchAssets": true
+    "watchAssets": true,
+    "plugins": [
+      {
+        "name": "@nestjs/swagger",
+        "options": {
+          "classValidatorShim": false,
+          "introspectComments": true
+        }
+      }
+    ]
   },
   "watchAssets": true,
-  "deleteOutDir": true,
-  "plugins": ["@nestjs/swagger"]
+  "deleteOutDir": true
 }

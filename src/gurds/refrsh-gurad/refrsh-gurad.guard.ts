@@ -14,9 +14,9 @@ export const RefrshGuradGuard = (secret: string): any => {
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
       const request = context.switchToHttp().getRequest();
-      const refCookie: string = request.cookies?.refCookie;
+      const { refCookie: refTokne } = request.cookies;
 
-      if (!refCookie) {
+      if (!refTokne) {
         throw new UnauthorizedException('No refresh cookie found');
       }
 
@@ -28,7 +28,7 @@ export const RefrshGuradGuard = (secret: string): any => {
       }
 
       try {
-        const decoded = await this.jwtService.verify(refCookie, {
+        const decoded = await this.jwtService.verify(refTokne, {
           secret,
         });
         request.userId = decoded.userId;

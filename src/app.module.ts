@@ -10,9 +10,12 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { AllExceptionFilter } from './helpers/alllExceptionsFilter';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { JWTAuthService } from './utils/JWTAuthServicer.service';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
+    JwtModule.register({}),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
@@ -24,6 +27,7 @@ import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
   ],
   controllers: [AppController],
   providers: [
+    JWTAuthService,
     AppService,
     Logger,
     {

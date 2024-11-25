@@ -5,14 +5,12 @@ import { User } from 'src/modules/user/schemas/user.schema';
 export type JwtData = {
   refSecret: string;
   authSecret: string;
-  payload?: Admin | User;
+  payload?: Payload;
 };
-// export type JWtsRespnse = {
-//   secrets: JwtData;
-//   res: Response;
-// };
 
 export type toknes = {
   refreshToken: string;
   auhtToken: string;
 };
+
+export type Payload = Admin | User;

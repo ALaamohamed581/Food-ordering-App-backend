@@ -11,7 +11,6 @@ import { CreateAdminDto } from './dto/creaeteAdmin.dto';
 import { Email } from 'src/utils/Email.service';
 import * as argon2 from 'argon2';
 import { UpdatePasswordDTO } from 'src/DTOs/update-password.dto';
-import { Response } from 'express';
 import { JWTAuthService } from '../../utils/JWTAuthServicer.service';
 @Injectable()
 export class AdminService {
@@ -41,7 +40,7 @@ export class AdminService {
       throw new UnauthorizedException('Wrong email or password');
     }
 
-    return this.jwtRes.securedResponse({
+    return this.jwtRes.generateTokens({
       refSecret: process.env.ADMIN_REFRESH_TOKEN_SECRET,
       authSecret: process.env.ADMIN_AUTH_TOKEN_SECRET,
       payload: existingUser,

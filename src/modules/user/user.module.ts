@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { JwtService } from '@nestjs/jwt';
 import { Paggination } from 'src/helpers/Paggination';
 import { FilterPipe } from 'src/pipes/filterPipe';
+import { JWTAuthService } from 'src/utils/JWTAuthServicer.service';
 
 @Module({
   imports: [
@@ -13,6 +14,6 @@ import { FilterPipe } from 'src/pipes/filterPipe';
   ],
 
   controllers: [UserController],
-  providers: [UserService, FilterPipe, JwtService],
+  providers: [UserService, FilterPipe, JwtService, JWTAuthService],
 })
 export class UserModule {}

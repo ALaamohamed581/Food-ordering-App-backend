@@ -17,7 +17,6 @@ import { Response } from 'express';
 export class AuthService {
   constructor(
     @InjectModel(User.name) private UserModdle: Model<User>,
-    private readonly jwt: JwtService,
     private readonly jwtRes: JWTAuthService,
   ) {}
 
@@ -44,7 +43,7 @@ export class AuthService {
       throw new UnauthorizedException('wrong mail or password');
     }
 
-    return this.jwtRes.securedResponse({
+    return this.jwtRes.generateTokens({
       refSecret: process.env.USER_REFRESH_TOKEN_SECRET,
       authSecret: process.env.USER_AUTH_TOKEN_SECRET,
       payload: existingUser,
