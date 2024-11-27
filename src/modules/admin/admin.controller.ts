@@ -6,6 +6,7 @@ import {
   Req,
   Res,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { CreateAdminDto } from './dto/creaeteAdmin.dto';
@@ -14,6 +15,8 @@ import { ApiCookieAuth } from '@nestjs/swagger';
 import { AuthGuard } from 'src/gurds/authguard/AuthGuard.guard';
 import { FilterPipe } from 'src/pipes/filterPipe';
 import { UpdatePasswordDTO } from 'src/DTOs/update-password.dto';
+import { jwtInterceptor } from 'src/Interceptores/jwtInterceptor.intecptor';
+import { Admin } from './schemas/admin.schema';
 
 @Controller('admins')
 export class AdminController {
@@ -25,27 +28,25 @@ export class AdminController {
 
     return this.adminService.create(body, url);
   }
-  @Post('signin')
+  @Post('/signin')
+  @UseInterceptors(
+    jwtInterceptor({
+      role: 'admin',
+    }),
+  )
   async signin(
     @Body() { email, password }: Partial<CreateAdminDto>,
-    @Res() res: Response,
+    @Req() req: Request,
   ) {
-    const { refreshToken, authToken } = await this.adminService.signIn(
+    const admin: CreateAdminDto = await this.adminService.signIn(
       email,
       password,
     );
-    return res
-      .cookie('refCookie', refreshToken, {
-        maxAge: 1000 * 60 * 60 * 24, // 24 hours
-        secure: true,
-      })
-      .cookie('authCookie', authToken, {
-        maxAge: 1000 * 60 * 15, // 15 minutes
-        secure: true,
-        httpOnly: true,
-      })
-      .status(200)
-      .json({ message: 'sign successful' });
+    req.payload = admin;
+
+    console.log(admin, 'the admin');
+    console.log(req.payload, 'the ');
+    return 'sign in ';
   }
   @ApiCookieAuth('authCookie')
   @UseGuards(AuthGuard('admin'))
@@ -55,8 +56,9 @@ export class AdminController {
 
     @Body(new FilterPipe()) passowrdsData: UpdatePasswordDTO,
   ) {
-    const id = req.userId;
-    this.adminService.updatedPassword(id, passowrdsData);
+    const email = req.payload.email;
+
+    this.adminService.updatedPassword(email, passowrdsData);
     return 'password updated succefuly';
   }
 }

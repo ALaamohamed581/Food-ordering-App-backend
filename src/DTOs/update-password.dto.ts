@@ -1,6 +1,6 @@
 import { IsString } from 'class-validator';
 
-import { Match } from '../modules/user/decoratores/Match';
+import { Match } from '../Decoratores/Match';
 
 export class UpdatePasswordDTO {
   @IsString()

@@ -34,8 +34,8 @@ export class UserController {
   @UseGuards(AuthGuard(process.env.AUTH_TOKEN_SECRET))
   @Put()
   Update(@Req() req: Request, @Body(new FilterPipe()) user: UpdateUserDto) {
-    const id = req.userId;
-    return this.userService.update(id, user);
+    const email = req.payload.email as string;
+    return this.userService.update(email, user);
   }
   @ApiCookieAuth('authCookie')
   @UseGuards(AuthGuard(process.env.AUTH_TOKEN_SECRET))
@@ -45,8 +45,8 @@ export class UserController {
 
     @Body(new FilterPipe()) passowrdsData: UpdatePasswordDTO,
   ) {
-    const id = req.userId;
-    this.userService.updatedPassword(id, passowrdsData);
+    // const id = req.payload._id as string;
+    // this.userService.updatedPassword(id, passowrdsData);
     return 'password updated succefuly';
   }
 }

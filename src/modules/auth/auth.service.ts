@@ -10,7 +10,7 @@ import { Model } from 'mongoose';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
-import { JWTAuthService } from 'src/utils/JWTAuthServicer.service';
+import { JWTAuthService } from 'src/utlis/JWTAuthServicer.service';
 import { Response } from 'express';
 
 @Injectable()
@@ -42,12 +42,7 @@ export class AuthService {
     ) {
       throw new UnauthorizedException('wrong mail or password');
     }
-
-    return this.jwtRes.generateTokens({
-      refSecret: process.env.USER_REFRESH_TOKEN_SECRET,
-      authSecret: process.env.USER_AUTH_TOKEN_SECRET,
-      payload: existingUser,
-    });
+    return existingUser;
   }
 
   async getAuyhToken(id: string) {

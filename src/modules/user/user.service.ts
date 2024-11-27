@@ -31,12 +31,12 @@ export class UserService {
     return exsitinguser;
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
-    if (!id) {
+  update(email: string, updateUserDto: UpdateUserDto) {
+    if (!email) {
       return new BadRequestException('please provide an id');
     }
 
-    return this.userModel.findByIdAndUpdate(id, updateUserDto, { new: true });
+    return this.userModel.findOne({ email }, updateUserDto, { new: true });
   }
 
   async updatedPassword(id: string, passwordsData: UpdatePasswordDTO) {

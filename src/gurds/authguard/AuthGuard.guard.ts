@@ -5,13 +5,12 @@ import {
   mixin,
   UnauthorizedException,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { Payload } from 'src/types/jwtAuthTyoe';
-import { JWTAuthService } from 'src/utils/JWTAuthServicer.service';
+import { Payload } from '../../types/jwtAuthTyoe';
+import { JWTAuthService } from 'src/utlis/JWTAuthServicer.service';
 declare global {
   namespace Express {
     interface Request {
-      userId: string;
+      payload: Payload;
     }
   }
 }
@@ -33,7 +32,7 @@ export const AuthGuard = (secret: string): any => {
       try {
         const decoded = this.JWTAuthService.VerifyAuthToken(authToken, secret);
 
-        request.userId = decoded.payload._id;
+        request.payload = decoded.payload;
 
         return true;
       } catch (error) {

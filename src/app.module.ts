@@ -9,25 +9,22 @@ import { AdminModule } from './modules/admin/admin.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { AllExceptionFilter } from './helpers/alllExceptionsFilter';
-import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
-import { JWTAuthService } from './utils/JWTAuthServicer.service';
-import { JwtModule } from '@nestjs/jwt';
+import { APP_FILTER } from '@nestjs/core';
+import { RestaurantModule } from './modules/restaurant/restaurant.module';
+import { UtlisModule } from './utlis/utlis.module';
 
 @Module({
   imports: [
-    JwtModule.register({}),
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: '.env',
-    }),
+    ConfigModule.forRoot({}),
     MongooseModule.forRoot(process.env.MONGO_URL),
     UserModule,
     AdminModule,
     AuthModule,
+    RestaurantModule,
+    UtlisModule,
   ],
   controllers: [AppController],
   providers: [
-    JWTAuthService,
     AppService,
     Logger,
     {

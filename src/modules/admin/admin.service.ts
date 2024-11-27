@@ -8,17 +8,17 @@ import { Model } from 'mongoose';
 import { Admin } from './schemas/admin.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateAdminDto } from './dto/creaeteAdmin.dto';
-import { Email } from 'src/utils/Email.service';
+import { Email } from 'src/utlis/Email.service';
 import * as argon2 from 'argon2';
 import { UpdatePasswordDTO } from 'src/DTOs/update-password.dto';
-import { JWTAuthService } from '../../utils/JWTAuthServicer.service';
+import { JWTAuthService } from '../../utlis/JWTAuthServicer.service';
 @Injectable()
 export class AdminService {
   constructor(
     @InjectModel(Admin.name) private adminModel: Model<Admin>,
     private readonly email: Email,
-    private readonly jwtRes: JWTAuthService,
   ) {}
+
   async create(body: CreateAdminDto, url: string) {
     body.password = `changeMe@${body.firstName}`;
     this.email.setRecipientData(body, url).sendAdminWelcome();
@@ -40,11 +40,7 @@ export class AdminService {
       throw new UnauthorizedException('Wrong email or password');
     }
 
-    return this.jwtRes.generateTokens({
-      refSecret: process.env.ADMIN_REFRESH_TOKEN_SECRET,
-      authSecret: process.env.ADMIN_AUTH_TOKEN_SECRET,
-      payload: existingUser,
-    });
+    return existingUser;
   }
   async updatedPassword(id: string, passwordsData: UpdatePasswordDTO) {
     let { Oldpassword, newPassword } = passwordsData;

@@ -30,11 +30,17 @@ export class AllExceptionFilter extends BaseExceptionFilter {
     } else if (exception instanceof MongooseError) {
       myResponse.statusCode = 422;
       myResponse.reponse = exception.message.replaceAll(/\n/g, '');
+    } else if (exception instanceof MongooseError) {
+      myResponse.statusCode = 422;
+      myResponse.reponse = exception.message.replaceAll(/\n/g, '');
     } else {
       myResponse.statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
       myResponse.reponse = 'INTERNAL SERVER ERROR'.toLowerCase();
     }
+
+    console.log(exception.message);
     response.status(myResponse.statusCode).json(myResponse);
+
     this.logger.error(myResponse.reponse, AllExceptionFilter.name);
     super.catch(exception, host);
   }
