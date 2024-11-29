@@ -64,4 +64,25 @@ export class AdminService {
     exsitingUser.password = await argon2.hash(newPassword);
     await exsitingUser.save();
   }
+  async getAll({ queryStr, limit, sort, fields, skip, page }: any) {
+    const total = await this.adminModel.find(queryStr).countDocuments();
+    const numberOfPages = total / limit;
+    console.log(queryStr);
+    console.log(Math.ceil(numberOfPages));
+    const resturants: CreateAdminDto[] = await this.adminModel
+      .find(queryStr)
+      .skip(skip)
+
+      .limit(limit)
+      .sort(sort)
+      .select(fields)
+      .lean()
+
+      .exec();
+    return {
+      data: resturants,
+      numberOfPages,
+      page,
+    };
+  }
 }

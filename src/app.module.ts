@@ -10,8 +10,11 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { AllExceptionFilter } from './helpers/alllExceptionsFilter';
 import { APP_FILTER } from '@nestjs/core';
-import { RestaurantModule } from './modules/restaurant/restaurant.module';
 import { UtlisModule } from './utlis/utlis.module';
+import { RestaurantModul } from './modules/restaurant/restaurant.module';
+import { OrderModule } from './modules/order/order.module';
+import { PaymentModule } from './modules/payment/payment.module';
+import { MenuItmeModule } from './modules/menu-itme/menu-itme.module';
 
 @Module({
   imports: [
@@ -20,8 +23,11 @@ import { UtlisModule } from './utlis/utlis.module';
     UserModule,
     AdminModule,
     AuthModule,
-    RestaurantModule,
+    RestaurantModul,
     UtlisModule,
+    OrderModule,
+    PaymentModule,
+    MenuItmeModule,
   ],
   controllers: [AppController],
   providers: [

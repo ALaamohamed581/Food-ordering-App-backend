@@ -5,18 +5,17 @@ import {
   Body,
   Res,
   Req,
-  UseGuards,
   UseInterceptors,
+  Query,
 } from '@nestjs/common';
 
 import { AuthService } from '../auth/auth.service';
 import { Request, Response } from 'express';
 import { ApiBody, ApiCreatedResponse, ApiOperation } from '@nestjs/swagger';
 import { CreateUserDto } from '../user/dto/create-user.dto';
-import { accessToken } from 'src/Interceptores/AccessToken.intecptor copy';
 import { JWTAuthService } from 'src/utlis/JWTAuthServicer.service';
-import { jwtInterceptor } from 'src/Interceptores/jwtInterceptor.intecptor';
-import { User } from '../user/schemas/user.schema';
+import { SignIn } from 'src/Interceptores/Signin.intecptor';
+import { Santiztion } from 'src/pipes/sanitiztaion.pip';
 
 @Controller('auth')
 export class AuthController {
@@ -26,10 +25,8 @@ export class AuthController {
   ) {}
 
   @ApiOperation({ summary: 'signs up and creats new user ' })
-  @ApiCreatedResponse()
-  @ApiBody({ type: CreateUserDto })
   @Post('/signup')
-  signUp(@Body() createUserDto: CreateUserDto) {
+  signUp(@Body(new Santiztion()) createUserDto: CreateUserDto) {
     return this.authService.signUp(createUserDto);
   }
   @ApiOperation({
@@ -38,7 +35,7 @@ export class AuthController {
   })
   @Post('/signin')
   @UseInterceptors(
-    jwtInterceptor({
+    SignIn({
       role: 'user',
     }),
   )

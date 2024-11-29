@@ -1,9 +1,4 @@
-import {
-  Injectable,
-  Logger,
-  LoggerService,
-  NestMiddleware,
-} from '@nestjs/common';
+import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 var currentdate = new Date();
 var datetime =
   'Last Sync: ' +

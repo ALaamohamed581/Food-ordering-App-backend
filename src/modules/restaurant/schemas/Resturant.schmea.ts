@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+import { ObjectSchema } from 'yup';
 
 export type RestaurantDocument = Restaurant & Document;
 
@@ -39,7 +40,7 @@ export class Restaurant {
   @Prop({ required: true })
   cuisine: string;
 
-  @Prop({ type: [MenuItemSchema] })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'MenuItem' })
   menuItems: MenuItem[];
 }
 

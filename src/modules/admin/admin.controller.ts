@@ -1,10 +1,10 @@
 import {
   Body,
   Controller,
+  Get,
   Patch,
   Post,
   Req,
-  Res,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -15,22 +15,24 @@ import { ApiCookieAuth } from '@nestjs/swagger';
 import { AuthGuard } from 'src/gurds/authguard/AuthGuard.guard';
 import { FilterPipe } from 'src/pipes/filterPipe';
 import { UpdatePasswordDTO } from 'src/DTOs/update-password.dto';
-import { jwtInterceptor } from 'src/Interceptores/jwtInterceptor.intecptor';
-import { Admin } from './schemas/admin.schema';
-
+import { SignIn } from 'src/Interceptores/Signin.intecptor';
+import { Santiztion } from 'src/pipes/sanitiztaion.pip';
 @Controller('admins')
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
   @Post()
-  createAdmin(@Body() body: CreateAdminDto, @Req() req: Request) {
+  createAdmin(
+    @Body(new Santiztion()) body: CreateAdminDto,
+    @Req() req: Request,
+  ) {
     const url = `${req.get('host')}/admins/password`;
 
     return this.adminService.create(body, url);
   }
   @Post('/signin')
   @UseInterceptors(
-    jwtInterceptor({
+    SignIn({
       role: 'admin',
     }),
   )
@@ -43,9 +45,6 @@ export class AdminController {
       password,
     );
     req.payload = admin;
-
-    console.log(admin, 'the admin');
-    console.log(req.payload, 'the ');
     return 'sign in ';
   }
   @ApiCookieAuth('authCookie')
@@ -60,5 +59,17 @@ export class AdminController {
 
     this.adminService.updatedPassword(email, passowrdsData);
     return 'password updated succefuly';
+  }
+  @Get()
+  async getAll(@Req() req: Request) {
+    const { queryStr, limit, sort, fields, skip, page } = req.queryString;
+    return await this.adminService.getAll({
+      queryStr,
+      limit,
+      sort,
+      fields,
+      skip,
+      page,
+    });
   }
 }

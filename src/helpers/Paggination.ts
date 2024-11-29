@@ -2,10 +2,8 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class Paggination {
-  constructor(
-    private query: any,
-    private queryString: any,
-  ) {}
+  private query: any;
+  private queryString: any;
 
   filter() {
     const queryObj = { ...this.queryString };
@@ -44,7 +42,7 @@ export class Paggination {
 
   paginate() {
     const page = this.queryString.page * 1 || 1;
-    const limit = this.queryString.limit * 1 || 100;
+    const limit = this.queryString.limit * 1 || 10;
     const skip = (page - 1) * limit;
 
     this.query = this.query.skip(skip).limit(limit);
@@ -54,5 +52,8 @@ export class Paggination {
 
   getQuery() {
     return this.query;
+  }
+  setQuery(valeu: any) {
+    return (this.query = valeu);
   }
 }
