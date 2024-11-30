@@ -1,16 +1,16 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema } from 'mongoose';
+import mongoose, { Document, Schema as MongooseSchema } from 'mongoose';
 
 @Schema()
 export class Cart extends Document {
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User', required: true })
-  userId: MongooseSchema.Types.ObjectId;
+  userId: string;
 
   @Prop({
     type: [
       {
         menuItmes: {
-          type: MongooseSchema.Types.ObjectId,
+          type: mongoose.Schema.Types.ObjectId,
           ref: 'menuItem',
           required: true,
         },

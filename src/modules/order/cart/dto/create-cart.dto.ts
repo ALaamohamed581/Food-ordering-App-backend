@@ -3,11 +3,11 @@ import { Types } from 'mongoose';
 
 export class CreateCartDto {
   @IsNotEmpty()
-  userId: Types.ObjectId;
+  userId: string;
 
   @IsArray()
   cartItems: {
-    menuItmes: Types.ObjectId;
+    menuItmes: string;
     quantity: number;
   }[];
 }
