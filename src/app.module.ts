@@ -12,9 +12,10 @@ import { AllExceptionFilter } from './helpers/alllExceptionsFilter';
 import { APP_FILTER } from '@nestjs/core';
 import { UtlisModule } from './utlis/utlis.module';
 import { RestaurantModul } from './modules/restaurant/restaurant.module';
-import { OrderModule } from './modules/order/order.module';
 import { PaymentModule } from './modules/payment/payment.module';
 import { MenuItmeModule } from './modules/menu-itme/menu-itme.module';
+import { OrderModule } from './modules/order/order.module';
+import { CartModule } from './modules/order/cart/cart.module';
 
 @Module({
   imports: [
@@ -25,9 +26,10 @@ import { MenuItmeModule } from './modules/menu-itme/menu-itme.module';
     AuthModule,
     RestaurantModul,
     UtlisModule,
-    OrderModule,
+    CartModule,
     PaymentModule,
     MenuItmeModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [

@@ -32,7 +32,7 @@ export class RestaurantService {
     };
   }
   async getOne(id: string) {
-    return await this.restaurantModel.findById(id).sort().lean().exec();
+    return await this.restaurantModel.findOne({ id }).sort().lean().exec();
   }
   async addMenuItem(id: string, addMenuItem: any): Promise<Restaurant> {
     return this.restaurantModel.findByIdAndUpdate(

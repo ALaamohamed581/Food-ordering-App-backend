@@ -25,6 +25,6 @@ export class PaginationPipe implements PipeTransform {
     const skip = (page - 1) * limit;
     queryStr = JSON.parse(queryStr);
 
-    return { limit, skip, page, queryStr, fields, sort };
+    return { limit, skip, queryStr, fields, sort };
   }
 }

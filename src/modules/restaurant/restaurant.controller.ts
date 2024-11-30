@@ -16,7 +16,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
 import { QueryString } from 'src/types/QueryString';
 import { PaginationPipe } from 'src/pipes/Pagination.pipe';
-import { MenuItemPipe } from './pipes/MenuItem.pipe';
+import { MenuItemPipe } from '../menu-itme/pipes/MenuItem.pipe';
 
 @Controller('restaurants')
 export class RestaurantController {
@@ -38,7 +38,7 @@ export class RestaurantController {
   @Get()
   async getAll(
     @Query(new PaginationPipe())
-    { queryStr, limit, sort, fields, skip, page }: QueryString,
+    { queryStr, limit, sort, fields, skip }: QueryString,
   ) {
     return await this.restaurantService.getAll({
       queryStr,
@@ -46,7 +46,6 @@ export class RestaurantController {
       sort,
       fields,
       skip,
-      page,
     });
   }
 

@@ -1,25 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
-import { ObjectSchema } from 'yup';
+import { MenuItem } from 'src/modules/menu-itme/schemas/Resturant.schmea';
 
-export type RestaurantDocument = Restaurant & Document;
-
-@Schema()
-export class MenuItem {
-  @Prop({ required: true })
-  name: string;
-
-  @Prop({ required: true })
-  price: number;
-
-  @Prop({ required: true })
-  ingredients: string[];
-
-  @Prop()
-  rating: number;
-}
-
-export const MenuItemSchema = SchemaFactory.createForClass(MenuItem);
+export type RestaurantDocument = Document;
 
 @Schema()
 export class Restaurant {
@@ -40,7 +23,7 @@ export class Restaurant {
   @Prop({ required: true })
   cuisine: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'MenuItem' })
+  @Prop({ type: mongoose.Schema.ObjectId, ref: 'meuItem' })
   menuItems: MenuItem[];
 }
 
