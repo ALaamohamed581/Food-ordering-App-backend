@@ -1,32 +1,35 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import Stripe from 'stripe';
-import { CartService } from '../order/cart/cart.service';
-import { CreateCartDto } from '../order/cart/dto/create-cart.dto';
 import { MenuItem } from '../menu-itme/schemas/Resturant.schmea';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cart } from '../order/cart/schams/cart.schema';
 import { Model } from 'mongoose';
-const stripe = new Stripe(
-  'sk_test_51PQzYsAeDMk9ovRaZd26FghchSru7BY0dkcnzsND3qy8W4bEMdy26CqFdxJu9jOWNhWvxRMLDaUGIpVy7qlTLvUZ00wdaBrLic',
-);
+import * as paypal from '@paypal/checkout-server-sdk';
 
 @Injectable()
 export class PaymentService {
+  stripe: Stripe;
+  paypal;
   constructor(
     @InjectModel(Cart.name) private cartModel: Model<Cart>,
     @InjectModel(MenuItem.name) private menuModel: Model<MenuItem>,
-  ) {}
+  ) {
+    this.stripe = new Stripe(process.env.STRIPE_API_KEY);
+    this.paypal = new paypal.core.PayPalHttpClient(
+      new paypal.core.SandboxEnvironment(
+        process.env.CLIENT_ID,
+        process.env.CLIENT_SECRET,
+      ),
+    );
+  }
 
-  async stripe(cartId: string) {
-    // Fetch the cart
-    const cart: CreateCartDto = await this.cartModel.findById(cartId);
+  async payWithStripe(cartId: string) {
+    const cart: any = await this.cartModel.findById(cartId);
 
-    // Validate cart existence
     if (!cart) {
       throw new BadRequestException('Please create a cart');
     }
 
-    // Fetch menu items and calculate total price
     const items = await Promise.all(
       cart.cartItems.map(async (item) => {
         const menuItem = await this.menuModel.findById(
@@ -52,7 +55,7 @@ export class PaymentService {
       quantity: item.quantity,
     }));
 
-    const session = await stripe.checkout.sessions.create({
+    const session = await this.stripe.checkout.sessions.create({
       line_items: lineItems,
       mode: 'payment',
       success_url: 'http://localhost:8000/api/v1/success',
@@ -62,4 +65,86 @@ export class PaymentService {
 
     return session;
   }
+  // async createPayPalOrder(id: any) {
+  //   const cart = await this.cartModel.findById(id);
+  //   try {
+  //     // Fetch all menu items in parallel
+  //     const menuItems = await Promise.all(
+  //       cart.cartItems.map(async (item: any) => {
+  //         console.log(item);
+  //         const menuItem = await this.menuModel.findById(item.menuItmes);
+  //         if (!menuItem) {
+  //           throw new BadRequestException(
+  //             `Menu item not found for ID: ${item.menuItem}`,
+  //           );
+  //         }
+  //         return { ...menuItem.toObject(), quantity: item.quantity };
+  //       }),
+  //     );
+
+  //     const purchaseUnits = [
+  //       {
+  //         items: menuItems.map((menuItem) => ({
+  //           name: menuItem.name,
+  //           sku: '001',
+  //           unit_amount: {
+  //             currency_code: 'USD',
+  //             value: menuItem.price.toFixed(2),
+  //           },
+  //           quantity: menuItem.quantity.toString(),
+  //         })),
+  //         amount: {
+  //           currency_code: 'USD',
+  //           value: menuItems
+  //             .reduce(
+  //               (total, menuItem) => total + menuItem.price * menuItem.quantity,
+  //               0,
+  //             )
+  //             .toFixed(2),
+  //           breakdown: {
+  //             item_total: {
+  //               currency_code: 'USD',
+  //               value: menuItems
+  //                 .reduce(
+  //                   (total, menuItem) =>
+  //                     total + menuItem.price * menuItem.quantity,
+  //                   0,
+  //                 )
+  //                 .toFixed(2),
+  //             },
+  //           },
+  //         },
+  //       },
+  //     ];
+
+  //     const createPaymentJson = {
+  //       intent: 'CAPTURE',
+  //       payer: {
+  //         payment_method: 'paypal',
+  //       },
+  //       application_context: {
+  //         return_url: 'http://localhost:3000/success',
+  //         cancel_url: 'http://localhost:3000/cancel',
+  //       },
+  //       purchase_units: purchaseUnits,
+  //     };
+
+  //     const request = new paypal.orders.OrdersCreateRequest();
+  //     request.requestBody(createPaymentJson as any);
+
+  //     const order = await paypalClient.execute(request);
+
+  //     const approvalUrl = order.result.links.find(
+  //       (link) => link.rel === 'approve',
+  //     );
+  //     if (approvalUrl) {
+  //       return { approvalUrl: approvalUrl.href };
+  //     } else {
+  //       throw new Error('Approval URL not found');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error creating PayPal order:', error);
+  //     throw new InternalServerErrorException('Error creating PayPal order');
+  //   }
+  // }
 }

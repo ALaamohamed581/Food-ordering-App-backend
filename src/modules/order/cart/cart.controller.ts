@@ -23,11 +23,7 @@ export class CartController {
   findOne(@Param('id') id: string) {
     return this.cartService.findOne(id);
   }
-  // !! Find the cart by its ID
-  // !! If the cart doesn't exist, throw a NotFoundException
-  // !! Fetch each product by its ID and retain the quantity
-  // !! Calculate the total price by summing up the price of each product multiplied by its quantity
-  // !! Update the cart's items and total price
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCartDto: any) {
     return this.cartService.update(id, updateCartDto);
