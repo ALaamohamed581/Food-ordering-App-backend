@@ -6,17 +6,15 @@ import {
   Patch,
   Post,
   Query,
-  Req,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
 import { RestaurantService } from './restaurant.service';
 import { CreateRestaurntDto } from './dtos/CreateRestaurnt.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Request } from 'express';
 import { QueryString } from 'src/types/QueryString';
 import { PaginationPipe } from 'src/pipes/Pagination.pipe';
-import { MenuItemPipe } from '../menu-itme/pipes/MenuItem.pipe';
+import { ImagesPipe } from 'src/pipes/images.pipe';
 
 @Controller('restaurants')
 export class RestaurantController {
@@ -26,25 +24,22 @@ export class RestaurantController {
   @UseInterceptors(FileInterceptor('image'))
   createResturnt(
     @Body() restaurant: CreateRestaurntDto,
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile(new ImagesPipe()) iamgeUrl: string,
   ) {
-    // let arrayBuffer = file.buffer.slice(0, 8);
-    // let magicNumber = Array.from(new Uint8Array(arrayBuffer))
-    //   .map((byte) => byte.toString(16).padStart(2, '0'))
-    //   .join(' ');
-
+    restaurant.image = iamgeUrl;
     return this.restaurantService.create(restaurant);
   }
   @Get()
   async getAll(
     @Query(new PaginationPipe())
-    { queryStr, limit, sort, fields, skip }: QueryString,
+    { queryStr, limit, sort, fields, skip, page }: QueryString,
   ) {
     return await this.restaurantService.getAll({
       queryStr,
       limit,
       sort,
       fields,
+      page,
       skip,
     });
   }

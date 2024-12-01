@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { CreateAdminDto } from './dto/creaeteAdmin.dto';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import { ApiCookieAuth } from '@nestjs/swagger';
 import { AuthGuard } from 'src/gurds/authguard/AuthGuard.guard';
 import { FilterPipe } from 'src/pipes/filterPipe';
@@ -40,10 +40,7 @@ export class AdminController {
     @Body() { email, password }: Partial<CreateAdminDto>,
     @Req() req: Request,
   ) {
-    const admin: CreateAdminDto = await this.adminService.signIn(
-      email,
-      password,
-    );
+    const admin = await this.adminService.signIn(email, password);
     req.payload = admin;
     return 'sign in ';
   }
@@ -56,7 +53,7 @@ export class AdminController {
     @Body(new FilterPipe()) passowrdsData: UpdatePasswordDTO,
   ) {
     const email = req.payload.email;
-
+    console.log(email, 'email');
     this.adminService.updatedPassword(email, passowrdsData);
     return 'password updated succefuly';
   }

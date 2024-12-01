@@ -6,8 +6,6 @@ import { config } from './config/swaggerConfig';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import { join } from 'path';
-import { JWTAuthService } from './utlis/JWTAuthServicer.service';
-import { Transform } from 'class-transformer';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -18,7 +16,6 @@ async function bootstrap() {
     new ValidationPipe({
       transform: true,
       whitelist: true,
-      forbidNonWhitelisted: true,
     }),
   );
 

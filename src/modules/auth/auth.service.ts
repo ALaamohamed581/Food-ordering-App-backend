@@ -9,9 +9,8 @@ import { User } from '../user/schemas/user.schema';
 import { Model } from 'mongoose';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import * as argon2 from 'argon2';
-import { JwtService } from '@nestjs/jwt';
+
 import { JWTAuthService } from 'src/utlis/JWTAuthServicer.service';
-import { Response } from 'express';
 
 @Injectable()
 export class AuthService {

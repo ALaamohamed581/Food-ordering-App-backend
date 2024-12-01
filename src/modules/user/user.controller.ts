@@ -2,7 +2,6 @@ import {
   Controller,
   Get,
   Body,
-  Patch,
   Param,
   UseGuards,
   Query,
@@ -11,20 +10,32 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 
 import { ApiCookieAuth } from '@nestjs/swagger';
 import { AuthGuard } from 'src/gurds/authguard/AuthGuard.guard';
 import { FilterPipe } from 'src/pipes/filterPipe';
-import { UpdatePasswordDTO } from '../../DTOs/update-password.dto';
+import { PaginationPipe } from 'src/pipes/Pagination.pipe';
+import { paginatedData, QueryString } from 'src/types/QueryString';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  getAllusers(@Query() qstr: string) {
-    return this.userService.findAll(0, 5);
+  async getAllusers(
+    @Query(new PaginationPipe())
+    { fields, limit, queryStr, skip, page, sort }: QueryString,
+  ) {
+    const data: paginatedData = await this.userService.findAll({
+      fields,
+      limit,
+      queryStr,
+      skip,
+      page,
+      sort,
+    });
+    return data;
   }
   @Get(':id')
   getOne(@Param('id') id: string) {
@@ -37,16 +48,10 @@ export class UserController {
     const email = req.payload.email as string;
     return this.userService.update(email, user);
   }
-  @ApiCookieAuth('authCookie')
-  @UseGuards(AuthGuard(process.env.AUTH_TOKEN_SECRET))
-  @Patch('password')
-  updatedPassword(
-    @Req() req: Request,
-
-    @Body(new FilterPipe()) passowrdsData: UpdatePasswordDTO,
-  ) {
-    // const id = req.payload._id as string;
-    // this.userService.updatedPassword(id, passowrdsData);
-    return 'password updated succefuly';
-  }
+  // @ApiCookieAuth('authCookie')
+  // @UseGuards(AuthGuard(process.env.AUTH_TOKEN_SECRET))
+  // @Patch('password')
+  // updatedPassword(@Body(new FilterPipe()) passowrdsData: UpdatePasswordDTO) {
+  //   return 'password updated succefuly';
+  // }
 }

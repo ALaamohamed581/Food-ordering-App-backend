@@ -6,3 +6,9 @@ export type QueryString = {
   sort: any;
   queryStr: any;
 };
+
+export type paginatedData = {
+  data: any;
+  numberOfPages: number;
+  page: number;
+};

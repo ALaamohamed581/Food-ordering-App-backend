@@ -1,4 +1,3 @@
-import { Transform } from 'class-transformer';
 import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateAdminDto {
@@ -15,4 +14,8 @@ export class CreateAdminDto {
 
   @IsOptional()
   password?: string;
+  @IsOptional()
+  permissions?: [string];
+  @IsOptional()
+  role?: string;
 }

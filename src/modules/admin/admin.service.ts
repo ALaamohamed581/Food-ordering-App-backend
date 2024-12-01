@@ -11,7 +11,6 @@ import { CreateAdminDto } from './dto/creaeteAdmin.dto';
 import { Email } from 'src/utlis/Email.service';
 import * as argon2 from 'argon2';
 import { UpdatePasswordDTO } from 'src/DTOs/update-password.dto';
-import { JWTAuthService } from '../../utlis/JWTAuthServicer.service';
 @Injectable()
 export class AdminService {
   constructor(
@@ -42,10 +41,10 @@ export class AdminService {
 
     return existingUser;
   }
-  async updatedPassword(id: string, passwordsData: UpdatePasswordDTO) {
-    let { Oldpassword, newPassword } = passwordsData;
-
-    const exsitingUser = await this.adminModel.findById(id);
+  async updatedPassword(email: string, passwordsData: UpdatePasswordDTO) {
+    const { Oldpassword, newPassword } = passwordsData;
+    console.log();
+    const exsitingUser = await this.adminModel.findOne({ email });
     if (!exsitingUser) {
       return new NotFoundException('user not found');
     }

@@ -1,3 +1,9 @@
+declare module 'Express' {
+  interface Request {
+    payload: Payload;
+    queryString: any;
+  }
+}
 import { Logger, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -16,10 +22,21 @@ import { PaymentModule } from './modules/payment/payment.module';
 import { MenuItmeModule } from './modules/menu-itme/menu-itme.module';
 import { OrderModule } from './modules/order/order.module';
 import { CartModule } from './modules/order/cart/cart.module';
+import { PermissionsModule } from './modules/permissions/permissions.module';
+import { Payload } from './types/jwtAuthTyoe';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({}),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [
+        () => ({
+          CLOUDNAIRY_CLOUD_NAME: process.env.CLOUDNAIRY_CLOUD_NAME,
+          CLOUDNAIRY_CLOUD_KEY: process.env.CLOUDNAIRY_CLOUD_KEY,
+          CLOUDNAIRY_CLOUD_SECRET: process.env.CLOUDNAIRY_CLOUD_SECRET,
+        }),
+      ],
+    }),
     MongooseModule.forRoot(process.env.MONGO_URL),
     UserModule,
     AdminModule,
@@ -30,6 +47,7 @@ import { CartModule } from './modules/order/cart/cart.module';
     PaymentModule,
     MenuItmeModule,
     OrderModule,
+    PermissionsModule,
   ],
   controllers: [AppController],
   providers: [
@@ -42,6 +60,7 @@ import { CartModule } from './modules/order/cart/cart.module';
   ],
 })
 export class AppModule implements NestModule {
+  constructor() {}
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(RequestLooger, CorsConfiguration).forRoutes('*');
   }

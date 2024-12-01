@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
 
 @Schema({})
 export class Admin extends Document {
@@ -14,6 +14,8 @@ export class Admin extends Document {
 
   @Prop()
   password: string;
+  @Prop({ type: [String], default: [] })
+  permissions: [string];
 
   @Prop({ required: true, enum: ['admin', 'superAdmin'], default: 'admin' })
   role: string;

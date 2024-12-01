@@ -7,7 +7,6 @@ import {
   Patch,
   Post,
   Query,
-  UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
 import { MenuItmeService } from './menu-itme.service';

@@ -5,28 +5,23 @@ import {
   mixin,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Payload } from '../../types/jwtAuthTyoe';
 import { JWTAuthService } from 'src/utlis/JWTAuthServicer.service';
-declare global {
-  namespace Express {
-    interface Request {
-      payload: Payload;
-      queryString: any;
-    }
-  }
-}
 
-export const AuthGuard = (secret: string): any => {
+export const AuthGuard = (role: string): any => {
   @Injectable()
   class AuthGuardMixin implements CanActivate {
     constructor(private readonly JWTAuthService: JWTAuthService) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
+      let secret: string;
       const request = context.switchToHttp().getRequest();
       const { authCookie: authToken } = request.cookies;
-      secret === 'admin'
-        ? (secret = process.env.ADMIN_AUTH_TOKEN_SECRET)
-        : (secret = process.env.USER_AUTH_TOKEN_SECRET);
+
+      if (role === 'admin') {
+        secret = process.env.ADMIN_AUTH_TOKEN_SECRET as string;
+      } else {
+        secret = process.env.USER_AUTH_TOKEN_SECRET as string;
+      }
       if (!authToken) {
         throw new UnauthorizedException('No auth cookie found');
       }

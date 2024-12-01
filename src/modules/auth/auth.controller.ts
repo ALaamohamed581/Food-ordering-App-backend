@@ -1,17 +1,15 @@
 import {
   Controller,
-  Get,
   Post,
   Body,
   Res,
   Req,
   UseInterceptors,
-  Query,
 } from '@nestjs/common';
 
 import { AuthService } from '../auth/auth.service';
 import { Request, Response } from 'express';
-import { ApiBody, ApiCreatedResponse, ApiOperation } from '@nestjs/swagger';
+import { ApiOperation } from '@nestjs/swagger';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { JWTAuthService } from 'src/utlis/JWTAuthServicer.service';
 import { SignIn } from 'src/Interceptores/Signin.intecptor';
@@ -44,7 +42,7 @@ export class AuthController {
 
     @Req() req: Request,
   ) {
-    const user: CreateUserDto = await this.authService.signIn(email, password);
+    const user = await this.authService.signIn(email, password);
     req.payload = user;
 
     return 'succes';

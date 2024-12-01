@@ -1,5 +1,5 @@
-import { CreateAdminDto } from 'src/modules/admin/dto/creaeteAdmin.dto';
-import { CreateUserDto } from 'src/modules/user/dto/create-user.dto';
+import { Admin } from 'src/modules/admin/schemas/admin.schema';
+import { User } from 'src/modules/user/schemas/user.schema';
 
 export type JwtData = {
   refSecret: string;
@@ -12,4 +12,4 @@ export type toknes = {
   auhtToken: string;
 };
 
-export type Payload = CreateAdminDto | CreateUserDto;
+export type Payload = Admin | User;

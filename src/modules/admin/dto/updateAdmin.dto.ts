@@ -1,4 +1,4 @@
-import { IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsEmail, IsOptional, IsString } from 'class-validator';
 
 export class UpdateAdminDto {
   @IsString()
@@ -16,4 +16,7 @@ export class UpdateAdminDto {
   @IsString()
   @IsOptional()
   password?: string;
+  @IsOptional()
+  @IsArray()
+  permissions?: [string];
 }

@@ -1,6 +1,6 @@
 import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
-var currentdate = new Date();
-var datetime =
+const currentdate = new Date();
+const datetime =
   'Last Sync: ' +
   currentdate.getDate() +
   '/' +

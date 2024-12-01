@@ -18,11 +18,14 @@ export const SignIn = ({ role, authSecret = '', refSecret = '' }): any => {
     ): Observable<any> | Promise<Observable<any>> {
       const res = context.switchToHttp().getResponse();
       const req = context.switchToHttp().getRequest();
-      role === 'admin'
-        ? ((authSecret = process.env.ADMIN_AUTH_TOKEN_SECRET),
-          (refSecret = process.env.ADMIN_REFRESH_TOKEN_SECRET))
-        : ((authSecret = process.env.USER_AUTH_TOKEN_SECRET),
-          (refSecret = process.env.USER_REFRESH_TOKEN_SECRET));
+
+      if (role === 'admin') {
+        refSecret = process.env.ADMIN_REFRESH_TOKEN_SECRET as string;
+        authSecret = process.env.ADMIN_AUTH_TOKEN_SECRET as string;
+      } else {
+        authSecret = process.env.USER_AUTH_TOKEN_SECRET as string;
+        refSecret = process.env.USER_REFRESH_TOKEN_SECRET as string;
+      }
 
       return next.handle().pipe(
         tap(() => {

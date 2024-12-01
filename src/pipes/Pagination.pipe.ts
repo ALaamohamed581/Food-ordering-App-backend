@@ -1,8 +1,8 @@
-import { PipeTransform, Injectable, ArgumentMetadata } from '@nestjs/common';
+import { PipeTransform, Injectable } from '@nestjs/common';
 import { QueryString } from 'src/types/QueryString';
 @Injectable()
 export class PaginationPipe implements PipeTransform {
-  transform(value: any, metadata: ArgumentMetadata) {
+  transform(value: any) {
     return this.paginate(value);
   }
   paginate(queryString: QueryString) {

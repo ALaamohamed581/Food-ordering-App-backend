@@ -25,7 +25,7 @@ export class CartService {
     const totalPrice = items.reduce((acc, item) => {
       return acc + item.menutitem.price * item.quantity;
     }, 0);
-    let cart = this.cartModel.create(createCartDto);
+    const cart = this.cartModel.create(createCartDto);
     return { totalPrice, cart };
   }
 

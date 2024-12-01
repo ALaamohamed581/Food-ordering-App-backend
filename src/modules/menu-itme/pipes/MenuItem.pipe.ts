@@ -1,14 +1,13 @@
-import { PipeTransform, Injectable, ArgumentMetadata } from '@nestjs/common';
-import { QueryString } from 'src/types/QueryString';
+import { PipeTransform, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class MenuItemPipe implements PipeTransform {
-  transform(value: any, metadata: ArgumentMetadata) {
+  transform(value: any) {
     return this.constructSearchQuery(value);
   }
 
   constructSearchQuery(queryParams: any) {
-    let constructedQuery: any = {};
+    const constructedQuery: any = {};
 
     if (queryParams.menuItems?.name) {
       constructedQuery['MenuItem.name'] = queryParams.menuItems.name;

@@ -1,5 +1,4 @@
-import { IsNotEmpty, IsArray, IsNumber } from 'class-validator';
-import { Types } from 'mongoose';
+import { IsNotEmpty, IsArray } from 'class-validator';
 
 export class CreateCartDto {
   @IsNotEmpty()
