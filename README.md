@@ -1,33 +1,105 @@
-# Database
+# Food Ordering App
 
-MONGO_URL=
+A streamlined food ordering application built with **NestJS**, featuring authentication, user management, restaurant and menu handling, payment integration, and file uploads.
 
-# Authentication Secrets
+## Key Features
 
-ADMIN_REFRESH_TOKEN_SECRET=
-ADMIN_AUTH_TOKEN_SECRET=
-COOKIE_SECRET=
-USER_REFRESH_TOKEN_SECRET=
-USER_AUTH_TOKEN_SECRET=
+### 1. **Authentication**
 
-# Email Configuration
+- Separate authentication for **admin** and **users**.
+- **JWT** tokens for secure authorization.
 
-EMAIL_USERNAME=
-EMAIL_PASSWORD=
-EMAIL_HOST=
-EMAIL_PORT=
+### 2. **Role-Based Access Control**
 
-# Cloudinary
+- Permissions managed through **guards** for secure, role-specific access.
 
-CLOUDNAIRY_CLOUD_KEY=
-CLOUDNAIRY_CLOUD_NAME=
-CLOUDNAIRY_CLOUD_SECRET=
+### 3. **Restaurant Management**
 
-# Stripe
+- Add, update, and manage restaurants.
 
-STRIPE_API_KEY=
+### 4. **Menu Management**
 
-# PayPal
+- Create, update, and delete menu items.
 
-PAYPAL_CLIENT_ID=
-PAYPAL_CLIENT_SECRET=
+### 5. **File Uploads**
+
+- Upload images seamlessly using **Cloudinary**.
+
+### 6. **Payment Integration**
+
+- Integrated with **Stripe** and **PayPal** for secure payment processing.
+
+### 7. **API Documentation**
+
+- Access detailed **Swagger API Documentation** at [http://localhost:8000/api/v1](http://localhost:8000/api/v1).
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- **Node.js** (v14 or later)
+- **npm** (v6 or later)
+- **MongoDB** (Ensure MongoDB is running and `.env` has a valid connection URL).
+
+### Setup
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone <repository-url>
+   cd <repository-folder>
+   ```
+
+2. **Install Dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Add Environment Variables**  
+   Create a `.env` file in the root directory with the following variables:
+
+   ```plaintext
+   MONGO_URL=
+   ADMIN_REFRESH_TOKEN_SECRET=
+   ADMIN_AUTH_TOKEN_SECRET=
+   COOKIE_SECRET=
+   USER_REFRESH_TOKEN_SECRET=
+   USER_AUTH_TOKEN_SECRET=
+   EMAIL_USERNAME=
+   EMAIL_PASSWORD=
+   EMAIL_HOST=
+   EMAIL_PORT=
+   CLOUDINARY_CLOUD_KEY=
+   CLOUDINARY_CLOUD_NAME=
+   CLOUDINARY_CLOUD_SECRET=
+   STRIPE_API_KEY=
+   PAYPAL_CLIENT_ID=
+   PAYPAL_CLIENT_SECRET=
+   ```
+
+4. **Run the Application**  
+   Start the application in development mode:
+
+   ```bash
+   npm run start:dev
+   ```
+
+5. **Access API Documentation**  
+   Open [http://localhost:8000/api/v1](http://localhost:8000/api/v1) in your browser.
+
+---
+
+## Highlights
+
+- **Authentication:** Secure JWT-based authentication for users and admins.
+- **User Management:** CRUD operations for managing user data.
+- **Restaurant Module:** Streamlined operations for managing restaurant data.
+- **Menu Items:** Easy addition and management of menu items.
+- **Role-Based Permissions:** Fine-grained access control for different user roles.
+- **Payment Integration:** Handle payments using Stripe or PayPal.
+- **Cloudinary Integration:** Efficient image uploads.
+
+### Start building your food ordering system today!
