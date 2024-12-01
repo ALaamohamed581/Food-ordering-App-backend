@@ -1,7 +1,20 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-@Schema({})
+@Schema({
+  toJSON: {
+    transform: (doc, ret) => {
+      delete ret.password;
+      return ret;
+    },
+  },
+  toObject: {
+    transform: (doc, ret) => {
+      delete ret.password;
+      return ret;
+    },
+  },
+})
 export class Admin extends Document {
   @Prop({ required: true })
   firstName: string;
