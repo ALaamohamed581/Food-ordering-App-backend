@@ -17,8 +17,8 @@ export class PaymentService {
     this.stripe = new Stripe(process.env.STRIPE_API_KEY);
     this.paypal = new paypal.core.PayPalHttpClient(
       new paypal.core.SandboxEnvironment(
-        process.env.CLIENT_ID,
-        process.env.CLIENT_SECRET,
+        process.env.PAYPAl_CLIENT_ID,
+        process.env.PAYPAl_CLIENT_SECRET,
       ),
     );
   }

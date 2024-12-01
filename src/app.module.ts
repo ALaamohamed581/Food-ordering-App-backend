@@ -15,7 +15,7 @@ import { AdminModule } from './modules/admin/admin.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { AllExceptionFilter } from './helpers/alllExceptionsFilter';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { UtlisModule } from './utlis/utlis.module';
 import { RestaurantModul } from './modules/restaurant/restaurant.module';
 import { PaymentModule } from './modules/payment/payment.module';
@@ -25,18 +25,17 @@ import { CartModule } from './modules/order/cart/cart.module';
 import { PermissionsModule } from './modules/permissions/permissions.module';
 import { Payload } from './types/jwtAuthTyoe';
 import { v2 as cloudinary } from 'cloudinary';
-
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 @Module({
   imports: [
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 15,
+      },
+    ]),
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [
-        () => ({
-          CLOUDNAIRY_CLOUD_NAME: process.env.CLOUDNAIRY_CLOUD_NAME,
-          CLOUDNAIRY_CLOUD_KEY: process.env.CLOUDNAIRY_CLOUD_KEY,
-          CLOUDNAIRY_CLOUD_SECRET: process.env.CLOUDNAIRY_CLOUD_SECRET,
-        }),
-      ],
     }),
     MongooseModule.forRoot(process.env.MONGO_URL),
     UserModule,
@@ -58,6 +57,7 @@ import { v2 as cloudinary } from 'cloudinary';
       provide: APP_FILTER,
       useClass: AllExceptionFilter,
     },
+    { provide: APP_GUARD, useClass: ThrottlerGuard },
   ],
 })
 export class AppModule implements NestModule {
