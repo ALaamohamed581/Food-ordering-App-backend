@@ -24,6 +24,7 @@ import { OrderModule } from './modules/order/order.module';
 import { CartModule } from './modules/order/cart/cart.module';
 import { PermissionsModule } from './modules/permissions/permissions.module';
 import { Payload } from './types/jwtAuthTyoe';
+import { v2 as cloudinary } from 'cloudinary';
 
 @Module({
   imports: [
@@ -60,7 +61,13 @@ import { Payload } from './types/jwtAuthTyoe';
   ],
 })
 export class AppModule implements NestModule {
-  constructor() {}
+  constructor() {
+    cloudinary.config({
+      cloud_name: process.env.CLOUDNAIRY_CLOUD_NAME,
+      api_key: process.env.CLOUDNAIRY_CLOUD_KEY,
+      api_secret: process.env.CLOUDNAIRY_CLOUD_SECRET,
+    });
+  }
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(RequestLooger, CorsConfiguration).forRoutes('*');
   }
