@@ -3,7 +3,6 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
@@ -11,10 +10,15 @@ import { Model } from 'mongoose';
 import { UpdatePasswordDTO } from '../../DTOs/update-password.dto';
 import * as argon2 from 'argon2';
 import { paginatedData, QueryString } from 'src/types/QueryString';
+import { I18nContext, I18nService } from 'nestjs-i18n';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<User>,
+    private readonly i18n: I18nService,
+  ) {}
 
   async findAll({
     fields,
@@ -41,13 +45,18 @@ export class UserService {
     };
   }
 
-  findOne(id: string): Promise<CreateUserDto> | Error {
+  async findOne(id: string): Promise<CreateUserDto | Error> {
     if (!id) {
       return new BadRequestException('please provide an id');
     }
-    const exsitinguser = this.userModel.findById(id).select('-password').lean();
+    const exsitinguser = (await this.userModel
+      .findById({ _id: id })
+      .select('-password')) as CreateUserDto;
+
     if (!exsitinguser) {
-      return new NotFoundException('user dosent exsitis or have been deleted');
+      return new NotFoundException(
+        this.i18n.t('test.NotFound', { lang: I18nContext.current().lang }),
+      );
     }
 
     return exsitinguser;

@@ -4,7 +4,7 @@
   "sourceRoot": "src",
 
   "compilerOptions": {
-    "assets": ["**/*.pug"],
+    "assets": [{ "include": "**/*.pug" }, { "include": "i18n/**/*" }],
     "watchAssets": true,
     "plugins": [
       {

@@ -23,20 +23,4 @@ import { ConfigModule } from '@nestjs/config';
   controllers: [RestaurantController],
   providers: [RestaurantService],
 })
-export class RestaurantModul {
-  // configure(consumer: MiddlewareConsumer) {
-  //   consumer
-  //     .apply(Paginate)
-  //     .exclude(
-  //       {
-  //         path: 'restaurants',
-  //         method: RequestMethod.POST,
-  //       },
-  //       {
-  //         path: 'restaurants',
-  //         method: RequestMethod.PATCH,
-  //       },
-  //     )
-  //     .forRoutes(RestaurantController);
-  // }
-}
+export class RestaurantModul {}

@@ -39,6 +39,7 @@ export class UserController {
   }
   @Get(':id')
   getOne(@Param('id') id: string) {
+    console.log(id);
     return this.userService.findOne(id);
   }
   @ApiCookieAuth('authCookie')

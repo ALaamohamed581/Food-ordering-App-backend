@@ -20,6 +20,7 @@ import { SignIn } from 'src/Interceptores/Signin.intecptor';
 import { Santiztion } from 'src/pipes/sanitiztaion.pip';
 import { PaginationPipe } from 'src/pipes/Pagination.pipe';
 import { QueryString } from 'src/types/QueryString';
+import { Admin } from './schemas/admin.schema';
 @Controller('admins')
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
@@ -43,8 +44,11 @@ export class AdminController {
     @Body() { email, password }: Partial<CreateAdminDto>,
     @Req() req: Request,
   ) {
-    const admin = await this.adminService.signIn(email, password);
-    req.payload = admin;
+    const admin: CreateAdminDto | Error = await this.adminService.signIn(
+      email,
+      password,
+    );
+    req.payload = admin as Admin;
     return 'sign in ';
   }
   @ApiCookieAuth('authCookie')

@@ -6,32 +6,30 @@ export class ImagesPipe implements PipeTransform {
   constructor() {}
 
   async transform(value: any) {
-    const arrayBuffer = value.buffer.slice(0, 8);
+    const files = Array.isArray(value) ? value : [value];
 
-    const magicNumber = Array.from(new Uint8Array(arrayBuffer))
-      .map((byte) => byte.toString(16).padStart(2, '0'))
-      .join(' ');
+    const imageUrls = await Promise.all(
+      files.map(async (file) => {
+        const imageBuffer = file.buffer.slice(0, 8);
+        const magicNumber = Array.from(new Uint8Array(imageBuffer))
+          .map((byte) => byte.toString(16).padStart(2, '0'))
+          .join(' ');
 
-    if (
-      magicNumber === '89 50 4e 47 0d 0a 1a 0a' ||
-      magicNumber.startsWith('ff d8 ff')
-    ) {
-      // 1)  make an array of buffers
-      const imageFile = value as Express.Multer.File;
-      //2) convert it to base 64 strings
+        if (
+          magicNumber === '89 50 4e 47 0d 0a 1a 0a' ||
+          magicNumber.startsWith('ff d8 ff')
+        ) {
+          const b64 = Buffer.from(file.buffer).toString('base64');
+          const dataUrl = `data:image/jpeg;base64,${b64}`;
 
-      const b64 = Buffer.from(imageFile.buffer).toString('base64');
-      //3) new imagesNaems
+          const img = await cloudinary.uploader.upload(dataUrl);
+          return img.url;
+        }
 
-      const dataUrl = `data:image/jpeg;base64,${b64}`;
-      //4) upload to cloundinary
+        throw new BadRequestException('Valid image types are .png and .jpeg');
+      }),
+    );
 
-      const img = await cloudinary.uploader.upload(dataUrl);
-
-      const iamgeUrl = await Promise.resolve(img.url);
-      return iamgeUrl;
-    }
-
-    throw new BadRequestException('Valid image types are .png and .jpeg');
+    return imageUrls.length === 1 ? imageUrls[0] : imageUrls;
   }
 }

@@ -11,11 +11,13 @@ import { CreateAdminDto } from './dto/creaeteAdmin.dto';
 import { Email } from 'src/utlis/Email.service';
 import * as argon2 from 'argon2';
 import { UpdatePasswordDTO } from 'src/DTOs/update-password.dto';
+import { I18nService, I18nContext } from 'nestjs-i18n';
 @Injectable()
 export class AdminService {
   constructor(
     @InjectModel(Admin.name) private adminModel: Model<Admin>,
     private readonly email: Email,
+    private readonly i18nService: I18nService,
   ) {}
 
   async create(body: CreateAdminDto, url: string) {
@@ -24,29 +26,44 @@ export class AdminService {
     return this.adminModel.create(body);
   }
   async signIn(email: string, password: string) {
-    const existingUser = await this.adminModel.findOne({ email: email });
-    if (!existingUser)
-      throw new BadRequestException('This email dosent exsits');
+    const exsisntADmin = await this.adminModel.findOne({
+      email,
+    });
+    if (!exsisntADmin) {
+      return new BadRequestException(
+        this.i18nService.t('errors.email', {
+          lang: I18nContext.current().lang,
+        }),
+      );
+    }
     if (
-      !existingUser ||
+      !exsisntADmin ||
       !(
-        (existingUser.password.startsWith('$') &&
-          (await argon2.verify(existingUser.password, password))) ||
-        (!existingUser.password.startsWith('$') &&
-          existingUser.password === password)
+        (exsisntADmin.password.startsWith('$') &&
+          (await argon2.verify(exsisntADmin.password, password))) ||
+        (!exsisntADmin.password.startsWith('$') &&
+          exsisntADmin.password === password)
       )
     ) {
-      throw new UnauthorizedException('Wrong email or password');
+      return new UnauthorizedException(
+        this.i18nService.t('errors.emailPassword', {
+          lang: I18nContext.current().lang,
+        }),
+      );
     }
 
-    return existingUser;
+    return exsisntADmin;
   }
   async updatedPassword(email: string, passwordsData: UpdatePasswordDTO) {
     const { Oldpassword, newPassword } = passwordsData;
     console.log();
     const exsitingUser = await this.adminModel.findOne({ email });
     if (!exsitingUser) {
-      return new NotFoundException('user not found');
+      return new NotFoundException(
+        this.i18nService.t('errors.admin', {
+          lang: I18nContext.current().lang,
+        }),
+      );
     }
     if (
       !exsitingUser ||
@@ -57,7 +74,11 @@ export class AdminService {
           exsitingUser.password === Oldpassword)
       )
     ) {
-      throw new UnauthorizedException('Wrong email or password');
+      throw new UnauthorizedException(
+        this.i18nService.t('errors.password', {
+          lang: I18nContext.current().lang,
+        }),
+      );
     }
 
     exsitingUser.password = await argon2.hash(newPassword);

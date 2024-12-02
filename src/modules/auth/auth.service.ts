@@ -39,7 +39,7 @@ export class AuthService {
       !existingUser ||
       !(await argon2.verify(existingUser.password, password))
     ) {
-      throw new UnauthorizedException('wrong mail or password');
+      throw new UnauthorizedException('wrong email or password');
     }
     return existingUser;
   }
