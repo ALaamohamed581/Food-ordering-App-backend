@@ -7,17 +7,24 @@ import {
   Patch,
   Post,
   Query,
+  UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
 import { MenuItmeService } from './menu-itme.service';
 import { MenuItemPipe } from './pipes/MenuItem.pipe';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ImagesPipe } from 'src/pipes/images.pipe';
 
 @Controller('menu-itmes')
 export class MenuItmeController {
   constructor(private readonly menuItmeService: MenuItmeService) {}
+  @UseInterceptors(FileInterceptor('image'))
   @Post()
-  create(@Body() menuItem: any) {
+  create(
+    @Body() menuItem: any,
+    @UploadedFile(new ImagesPipe()) iamgeUrl: string,
+  ) {
+    menuItem.image = iamgeUrl;
     return this.menuItmeService.create(menuItem);
   }
   @Get()

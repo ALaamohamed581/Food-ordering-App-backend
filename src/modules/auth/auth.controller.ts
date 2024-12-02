@@ -5,6 +5,7 @@ import {
   Res,
   Req,
   UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 
 import { AuthService } from '../auth/auth.service';
@@ -14,6 +15,8 @@ import { CreateUserDto } from '../user/dto/create-user.dto';
 import { JWTAuthService } from 'src/utlis/JWTAuthServicer.service';
 import { SignIn } from 'src/Interceptores/Signin.intecptor';
 import { Santiztion } from 'src/pipes/sanitiztaion.pip';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ImagesPipe } from 'src/pipes/images.pipe';
 
 @Controller('auth')
 export class AuthController {
@@ -24,7 +27,12 @@ export class AuthController {
 
   @ApiOperation({ summary: 'signs up and creats new user ' })
   @Post('/signup')
-  signUp(@Body(new Santiztion()) createUserDto: CreateUserDto) {
+  @UseInterceptors(FileInterceptor('image'))
+  signUp(
+    @Body(new Santiztion()) createUserDto: CreateUserDto,
+    @UploadedFile(new ImagesPipe()) imageUrl: string,
+  ) {
+    createUserDto.image = imageUrl || '';
     return this.authService.signUp(createUserDto);
   }
   @ApiOperation({

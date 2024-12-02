@@ -1,20 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
-@Schema({
-  toJSON: {
-    transform: (doc, ret) => {
-      delete ret.password;
-      return ret;
-    },
-  },
-  toObject: {
-    transform: (doc, ret) => {
-      delete ret.password;
-      return ret;
-    },
-  },
-})
+@Schema()
 export class User extends Document {
   @Prop({ required: true })
   firstName: string;
@@ -25,7 +12,7 @@ export class User extends Document {
   @Prop({ required: true, unique: true })
   email: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, select: false })
   password: string;
 
   @Prop({ type: [String], default: [] })
@@ -41,6 +28,8 @@ export class User extends Document {
 
   @Prop({ required: true, enum: ['user'], default: 'user' })
   role: string;
+  @Prop()
+  image: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

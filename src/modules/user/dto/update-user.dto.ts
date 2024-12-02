@@ -42,4 +42,7 @@ export class UpdateUserDto {
   @IsOptional()
   @IsEnum(['user', 'admin'])
   role?: string;
+  @IsOptional()
+  @IsString()
+  image: string;
 }

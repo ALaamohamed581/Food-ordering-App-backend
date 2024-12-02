@@ -25,7 +25,7 @@ export class Admin extends Document {
   @Prop({ required: true, unique: true })
   email: string;
 
-  @Prop()
+  @Prop({ select: false })
   password: string;
   @Prop({ type: [String], default: [] })
   permissions: [string];

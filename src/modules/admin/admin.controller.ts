@@ -4,6 +4,7 @@ import {
   Get,
   Patch,
   Post,
+  Query,
   Req,
   UseGuards,
   UseInterceptors,
@@ -12,11 +13,13 @@ import { AdminService } from './admin.service';
 import { CreateAdminDto } from './dto/creaeteAdmin.dto';
 import { Request } from 'express';
 import { ApiCookieAuth } from '@nestjs/swagger';
-import { AuthGuard } from 'src/gurds/authguard/AuthGuard.guard';
+import { AuthGuard } from 'src/gurds/authguard/authGuard.guard';
 import { FilterPipe } from 'src/pipes/filterPipe';
 import { UpdatePasswordDTO } from 'src/DTOs/update-password.dto';
 import { SignIn } from 'src/Interceptores/Signin.intecptor';
 import { Santiztion } from 'src/pipes/sanitiztaion.pip';
+import { PaginationPipe } from 'src/pipes/Pagination.pipe';
+import { QueryString } from 'src/types/QueryString';
 @Controller('admins')
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
@@ -53,13 +56,15 @@ export class AdminController {
     @Body(new FilterPipe()) passowrdsData: UpdatePasswordDTO,
   ) {
     const email = req.payload.email;
-    console.log(email, 'email');
+
     this.adminService.updatedPassword(email, passowrdsData);
     return 'password updated succefuly';
   }
   @Get()
-  async getAll(@Req() req: Request) {
-    const { queryStr, limit, sort, fields, skip, page } = req.queryString;
+  async getAll(
+    @Query(new PaginationPipe())
+    { queryStr, limit, sort, fields, skip, page }: QueryString,
+  ) {
     return await this.adminService.getAll({
       queryStr,
       limit,

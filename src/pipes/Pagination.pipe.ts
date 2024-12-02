@@ -3,7 +3,8 @@ import { QueryString } from 'src/types/QueryString';
 @Injectable()
 export class PaginationPipe implements PipeTransform {
   transform(value: any) {
-    return this.paginate(value);
+    if (value != '') return this.paginate(value);
+    return value;
   }
   paginate(queryString: QueryString) {
     const queryObj = { ...queryString };

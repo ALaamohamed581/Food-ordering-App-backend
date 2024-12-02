@@ -13,7 +13,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Request } from 'express';
 
 import { ApiCookieAuth } from '@nestjs/swagger';
-import { AuthGuard } from 'src/gurds/authguard/AuthGuard.guard';
+import { AuthGuard } from 'src/gurds/authguard/authGuard.guard';
 import { FilterPipe } from 'src/pipes/filterPipe';
 import { PaginationPipe } from 'src/pipes/Pagination.pipe';
 import { paginatedData, QueryString } from 'src/types/QueryString';

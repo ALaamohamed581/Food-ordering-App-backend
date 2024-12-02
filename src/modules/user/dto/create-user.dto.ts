@@ -36,4 +36,7 @@ export class CreateUserDto {
   @IsOptional()
   @IsArray()
   previousOrders?: Types.ObjectId[];
+
+  @IsString()
+  image: string;
 }

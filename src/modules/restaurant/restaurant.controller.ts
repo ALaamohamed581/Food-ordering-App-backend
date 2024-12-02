@@ -26,7 +26,7 @@ export class RestaurantController {
     @Body() restaurant: CreateRestaurntDto,
     @UploadedFile(new ImagesPipe()) iamgeUrl: string,
   ) {
-    restaurant.image = iamgeUrl;
+    restaurant.image = iamgeUrl || '';
     return this.restaurantService.create(restaurant);
   }
   @Get()
@@ -34,7 +34,7 @@ export class RestaurantController {
     @Query(new PaginationPipe())
     { queryStr, limit, sort, fields, skip, page }: QueryString,
   ) {
-    return await this.restaurantService.getAll({
+    const data = await this.restaurantService.getAll({
       queryStr,
       limit,
       sort,
@@ -42,6 +42,7 @@ export class RestaurantController {
       page,
       skip,
     });
+    return data;
   }
 
   @Get(':id')

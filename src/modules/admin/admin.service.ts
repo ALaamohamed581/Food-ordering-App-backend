@@ -65,9 +65,8 @@ export class AdminService {
   }
   async getAll({ queryStr, limit, sort, fields, skip, page }: any) {
     const total = await this.adminModel.find(queryStr).countDocuments();
-    const numberOfPages = total / limit;
-    console.log(queryStr);
-    console.log(Math.ceil(numberOfPages));
+    const numberOfPages = Math.ceil(total / limit);
+
     const resturants: CreateAdminDto[] = await this.adminModel
       .find(queryStr)
       .skip(skip)

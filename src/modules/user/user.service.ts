@@ -45,7 +45,7 @@ export class UserService {
     if (!id) {
       return new BadRequestException('please provide an id');
     }
-    const exsitinguser = this.userModel.findById(id).lean();
+    const exsitinguser = this.userModel.findById(id).select('-password').lean();
     if (!exsitinguser) {
       return new NotFoundException('user dosent exsitis or have been deleted');
     }
