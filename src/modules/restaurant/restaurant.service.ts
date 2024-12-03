@@ -22,6 +22,7 @@ export class RestaurantService {
     skip,
     page,
   }: QueryString): Promise<paginatedData> {
+    let data;
     const total = await this.restaurantModel.find(queryStr).countDocuments();
     const numberOfPages = Math.ceil(total / limit);
 
@@ -36,7 +37,7 @@ export class RestaurantService {
     return {
       data: resturants,
       numberOfPages,
-      page,
+      page: page,
     };
   }
   async getOne(id: string) {

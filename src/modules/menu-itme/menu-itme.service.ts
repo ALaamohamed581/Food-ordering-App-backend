@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { MenuItem } from './schemas/Resturant.schmea';
 import { Restaurant } from '../restaurant/schemas/Resturant.schmea';
+import { QueryString } from 'src/types/QueryString';
+import { CreateMenuItemDto } from './dto/createMenu.dto copy';
 
 @Injectable()
 export class MenuItmeService {
@@ -13,8 +15,22 @@ export class MenuItmeService {
   create(meuitem) {
     return this.menuItemModel.create(meuitem);
   }
-  getAll(qstr) {
-    return this.menuItemModel.find(qstr).lean().exec();
+  async getAll({ fields, limit, queryStr, skip, sort, page }: QueryString) {
+    const total = await this.menuItemModel.find(queryStr).countDocuments();
+    const numberOfPages = Math.ceil(total / limit);
+    const menuItems: CreateMenuItemDto[] = await this.menuItemModel
+      .find(queryStr)
+      .skip(skip)
+      .limit(limit)
+      .sort(sort)
+      .select(fields)
+      .lean()
+      .exec();
+    return {
+      data: menuItems,
+      numberOfPages,
+      page,
+    };
   }
   getOne(id: string) {
     const menuItem = this.menuItemModel.findById(id);

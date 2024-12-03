@@ -15,7 +15,7 @@ import { AdminModule } from './modules/admin/admin.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { AllExceptionFilter } from './helpers/alllExceptionsFilter';
-import { APP_FILTER, APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { UtlisModule } from './utlis/utlis.module';
 import { RestaurantModul } from './modules/restaurant/restaurant.module';
 import { PaymentModule } from './modules/payment/payment.module';
@@ -26,6 +26,7 @@ import { PermissionsModule } from './modules/permissions/permissions.module';
 import { Payload } from './types/jwtAuthTyoe';
 import { v2 as cloudinary } from 'cloudinary';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
 import * as path from 'path';
 import {
   AcceptLanguageResolver,
@@ -33,9 +34,17 @@ import {
   I18nModule,
   QueryResolver,
 } from 'nestjs-i18n';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { PaginationPipe } from './pipes/Pagination.pipe';
 
 @Module({
   imports: [
+    CacheModule.register({
+      isGlobal: true,
+      ttl: 10,
+      max: 10,
+    }),
+
     I18nModule.forRoot({
       fallbackLanguage: 'en',
       loaderOptions: {
@@ -73,6 +82,11 @@ import {
   ],
   controllers: [AppController],
   providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CacheInterceptor,
+    },
+
     AppService,
     Logger,
     {

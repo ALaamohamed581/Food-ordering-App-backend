@@ -9,6 +9,7 @@ import {
   Query,
   UseGuards,
   Req,
+  UseInterceptors,
 } from '@nestjs/common';
 import { PermissionsService } from './permissions.service';
 import { CreatePermissionDto } from './dto/create-permission.dto';
@@ -17,6 +18,7 @@ import { PaginationPipe } from 'src/pipes/Pagination.pipe';
 import { QueryString } from 'src/types/QueryString';
 import { permissiongurd } from 'src/gurds/permissiongurd/permissiongurd.guard';
 import { Request } from 'express';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @Controller('permissions')
 export class PermissionsController {
@@ -32,6 +34,7 @@ export class PermissionsController {
   }
 
   @Get()
+  @UseInterceptors(CacheInterceptor)
   findAll(
     @Query(new PaginationPipe())
     { fields, limit, queryStr, skip, sort, page }: QueryString,

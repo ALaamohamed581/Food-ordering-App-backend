@@ -7,6 +7,7 @@ import {
   Query,
   Put,
   Req,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -17,12 +18,15 @@ import { AuthGuard } from 'src/gurds/authguard/authGuard.guard';
 import { FilterPipe } from 'src/pipes/filterPipe';
 import { PaginationPipe } from 'src/pipes/Pagination.pipe';
 import { paginatedData, QueryString } from 'src/types/QueryString';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
+  @UseInterceptors(CacheInterceptor)
+  @UseInterceptors(FileInterceptor('image'))
   async getAllusers(
     @Query(new PaginationPipe())
     { fields, limit, queryStr, skip, page, sort }: QueryString,

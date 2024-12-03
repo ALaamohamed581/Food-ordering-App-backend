@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Inject,
   Param,
   Patch,
   Post,
@@ -15,6 +16,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { QueryString } from 'src/types/QueryString';
 import { PaginationPipe } from 'src/pipes/Pagination.pipe';
 import { ImagesPipe } from 'src/pipes/images.pipe';
+import { CACHE_MANAGER, CacheInterceptor } from '@nestjs/cache-manager';
 
 @Controller('restaurants')
 export class RestaurantController {
@@ -30,6 +32,7 @@ export class RestaurantController {
     return this.restaurantService.create(restaurant);
   }
   @Get()
+  @UseInterceptors(CacheInterceptor)
   async getAll(
     @Query(new PaginationPipe())
     { queryStr, limit, sort, fields, skip, page }: QueryString,

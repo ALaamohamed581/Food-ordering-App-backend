@@ -14,6 +14,8 @@ import { MenuItmeService } from './menu-itme.service';
 import { MenuItemPipe } from './pipes/MenuItem.pipe';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ImagesPipe } from 'src/pipes/images.pipe';
+import { CacheInterceptor } from '@nestjs/cache-manager';
+import { QueryString } from 'src/types/QueryString';
 
 @Controller('menu-itmes')
 export class MenuItmeController {
@@ -28,8 +30,19 @@ export class MenuItmeController {
     return this.menuItmeService.create(menuItem);
   }
   @Get()
-  getAll(@Query(new MenuItemPipe()) qstr) {
-    return this.menuItmeService.getAll(qstr);
+  @UseInterceptors(CacheInterceptor)
+  getAll(
+    @Query(new MenuItemPipe())
+    { fields, limit, queryStr, skip, sort, page }: QueryString,
+  ) {
+    return this.menuItmeService.getAll({
+      fields,
+      limit,
+      queryStr,
+      skip,
+      sort,
+      page,
+    });
   }
   @Get('/:id')
   getOne(@Param('id') id: string) {
