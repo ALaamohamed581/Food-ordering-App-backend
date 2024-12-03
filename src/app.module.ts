@@ -34,8 +34,6 @@ import {
   I18nModule,
   QueryResolver,
 } from 'nestjs-i18n';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { PaginationPipe } from './pipes/Pagination.pipe';
 
 @Module({
   imports: [
