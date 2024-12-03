@@ -19,6 +19,7 @@ import { FilterPipe } from 'src/pipes/filterPipe';
 import { PaginationPipe } from 'src/pipes/Pagination.pipe';
 import { paginatedData, QueryString } from 'src/types/QueryString';
 import { CacheInterceptor } from '@nestjs/cache-manager';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('users')
 export class UserController {
