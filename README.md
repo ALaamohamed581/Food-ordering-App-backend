@@ -102,4 +102,4 @@ A streamlined food ordering application built with **NestJS**, featuring authent
 - **Payment Integration:** Handle payments using Stripe or PayPal.
 - **Cloudinary Integration:** Efficient image uploads.
 
-### Start building your food ordering system today!
+
