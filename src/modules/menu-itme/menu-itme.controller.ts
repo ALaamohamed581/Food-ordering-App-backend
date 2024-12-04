@@ -16,6 +16,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ImagesPipe } from 'src/pipes/images.pipe';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 import { QueryString } from 'src/types/QueryString';
+import { CreateMenuItemDto } from './dto/menuItem.dto';
 
 @Controller('menu-itmes')
 export class MenuItmeController {
@@ -23,7 +24,7 @@ export class MenuItmeController {
   @UseInterceptors(FileInterceptor('image'))
   @Post()
   create(
-    @Body() menuItem: any,
+    @Body() menuItem: CreateMenuItemDto,
     @UploadedFile(new ImagesPipe()) iamgeUrl: string,
   ) {
     menuItem.image = iamgeUrl;
@@ -50,7 +51,7 @@ export class MenuItmeController {
   }
   @Patch('/:id')
   @UseInterceptors(FileInterceptor('image'))
-  update(@Param('id') id: string, @Body() menuItem: any) {
+  update(@Param('id') id: string, @Body() menuItem: CreateMenuItemDto) {
     return this.menuItmeService.update(id, menuItem);
   }
   @Delete('/id')

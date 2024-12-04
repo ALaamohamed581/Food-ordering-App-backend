@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  Inject,
   Param,
   Patch,
   Post,
@@ -11,13 +10,13 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { RestaurantService } from './restaurant.service';
-import { CreateRestaurntDto } from './dtos/create-restaurant.dto';
+import { CreateRestaurntDto } from './dto/create-restaurant.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { QueryString } from 'src/types/QueryString';
 import { PaginationPipe } from 'src/pipes/Pagination.pipe';
 import { ImagesPipe } from 'src/pipes/images.pipe';
-import { CACHE_MANAGER, CacheInterceptor } from '@nestjs/cache-manager';
-
+import { CacheInterceptor } from '@nestjs/cache-manager';
+@UseInterceptors(CacheInterceptor)
 @Controller('restaurants')
 export class RestaurantController {
   constructor(private readonly restaurantService: RestaurantService) {}
@@ -32,7 +31,6 @@ export class RestaurantController {
     return this.restaurantService.create(restaurant);
   }
   @Get()
-  @UseInterceptors(CacheInterceptor)
   async getAll(
     @Query(new PaginationPipe())
     { queryStr, limit, sort, fields, skip, page }: QueryString,

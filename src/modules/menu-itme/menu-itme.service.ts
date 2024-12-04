@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { MenuItem } from './schemas/Resturant.schmea';
 import { Restaurant } from '../restaurant/schemas/Resturant.schmea';
 import { QueryString } from 'src/types/QueryString';
-import { CreateMenuItemDto } from './dto/menuitem.dto';
+import { CreateMenuItemDto } from './dto/menuItem.dto';
 
 @Injectable()
 export class MenuItmeService {

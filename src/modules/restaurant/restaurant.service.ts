@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Restaurant } from './schemas/Resturant.schmea';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { CreateRestaurntDto } from './dtos/create-restaurant.dto';
+import { CreateRestaurntDto } from './dto/create-restaurant.dto';
 import { paginatedData, QueryString } from 'src/types/QueryString';
 import { MenuItem } from '../menu-itme/schemas/Resturant.schmea';
 @Injectable()
@@ -27,6 +27,7 @@ export class RestaurantService {
     const total = await this.restaurantModel
       .find(queryStr)
       .countDocuments()
+
       .exec();
     const numberOfPages = Math.ceil(total / limit);
 
