@@ -1,38 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { JwtData, TokenData } from 'src/types/jwtAuthTyoe';
+import { Token, TokenData } from 'src/types/JWTTypes';
 
 @Injectable()
 export class JWTAuthService {
   constructor(private readonly jwtService: JwtService) {}
 
-  generateTokens({ authSecret, payload, refSecret }: JwtData) {
-    if (!refSecret) {
-      const authToken = this.jwtService.sign(
-        { payload },
+  generateTokens(tokens: Token[]) {
+    const genratedTokens = tokens.map((token) =>
+      this.jwtService.sign(
+        { payload: token.payload },
         {
-          secret: authSecret,
-          expiresIn: '15m',
+          secret: token.secret,
+          expiresIn: token.expiresIn,
         },
-      );
-      return { authToken };
-    }
-    const refreshToken = this.jwtService.sign(
-      {},
-      {
-        secret: refSecret,
-        expiresIn: '1d',
-      },
+      ),
     );
-    const authToken = this.jwtService.sign(
-      { payload },
-      {
-        secret: authSecret,
-        expiresIn: '15m',
-      },
-    );
-
-    return { refreshToken, authToken };
+    return genratedTokens;
   }
 
   VerifyAuthToken({ token, secret }: TokenData) {

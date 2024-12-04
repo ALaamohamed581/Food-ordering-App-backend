@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { Observable, tap } from 'rxjs';
 import { JWTAuthService } from 'src/modules/utlis/JWTAuthServicer.service';
+import { Payload } from '../types/JWTTypes';
 export const SignIn = ({ role, authSecret = '', refSecret = '' }): any => {
   @Injectable()
   class SignInMixin implements NestInterceptor {
@@ -29,11 +30,10 @@ export const SignIn = ({ role, authSecret = '', refSecret = '' }): any => {
 
       return next.handle().pipe(
         tap(() => {
-          const { refreshToken, authToken } = this.jwt.generateTokens({
-            authSecret,
-            refSecret,
-            payload: req.payload,
-          });
+          const [authToken, refreshToken] = this.jwt.generateTokens([
+            { expiresIn: '15m', payload: req.payload, secret: authSecret },
+            { expiresIn: '1day', payload: {}, secret: refSecret },
+          ]);
           res
             .cookie('refCookie', refreshToken, {
               maxAge: 1000 * 60 * 60 * 24, // 24 hours

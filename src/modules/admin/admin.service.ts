@@ -60,7 +60,9 @@ export class AdminService {
   async updatedPassword(email: string, passwordsData: UpdatePasswordDTO) {
     const { Oldpassword, newPassword } = passwordsData;
     console.log();
-    const exsitingUser = await this.adminModel.findOne({ email });
+    const exsitingUser = await this.adminModel
+      .findOne({ email })
+      .select('+password');
     if (!exsitingUser) {
       return new NotFoundException(
         this.i18nService.t('errors.admin', {

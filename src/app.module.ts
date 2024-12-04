@@ -22,7 +22,7 @@ import { PaymentModule } from './modules/payment/payment.module';
 import { MenuItmeModule } from './modules/menu-itme/menu-itme.module';
 import { OrderModule } from './modules/order/order.module';
 import { PermissionsModule } from './modules/permissions/permissions.module';
-import { Payload } from './types/jwtAuthTyoe';
+import { Payload } from './types/JWTTypes';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
 import * as path from 'path';
