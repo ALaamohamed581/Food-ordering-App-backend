@@ -9,7 +9,7 @@ import { Cart } from '../cart/schams/cart.schema';
 @Injectable()
 export class PaymentService {
   stripe: Stripe;
-  paypal;
+  paypal: unknown;
   constructor(
     @InjectModel(Cart.name) private cartModel: Model<Cart>,
     @InjectModel(MenuItem.name) private menuModel: Model<MenuItem>,
