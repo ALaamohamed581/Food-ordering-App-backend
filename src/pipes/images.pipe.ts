@@ -1,4 +1,5 @@
 import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { v2 as cloudinary } from 'cloudinary';
 
 @Injectable()
@@ -6,6 +7,9 @@ export class ImagesPipe implements PipeTransform {
   constructor() {}
 
   async transform(value: any) {
+    if (!value) return;
+    const config = new ConfigService();
+    cloudinary.config(config.get('cloudinary.config'));
     const files = Array.isArray(value) ? value : [value];
 
     const imageUrls = await Promise.all(

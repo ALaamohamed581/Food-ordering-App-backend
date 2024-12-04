@@ -5,10 +5,12 @@ import { SwaggerModule } from '@nestjs/swagger';
 import { config as swaggerConfig } from './config/swagge.config';
 import { ValidationPipe } from '@nestjs/common';
 import { join } from 'path';
-import * as cookieParser from 'cookie-parser';
+
 import { v2 as cloudinary } from 'cloudinary';
 import { ConfigService } from '@nestjs/config';
 
+import * as cookieParser from 'cookie-parser';
+import * as compression from 'compression';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.use(cookieParser(process.env.COOKIE_SECRET));
@@ -20,12 +22,12 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
+  app.use(compression());
 
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('pug');
 
-  // Apply CSRF protection middleware
   const documentFactory = () =>
     SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api/v1', app, documentFactory);

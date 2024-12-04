@@ -11,7 +11,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { RestaurantService } from './restaurant.service';
-import { CreateRestaurntDto } from './dtos/CreateRestaurnt.dto';
+import { CreateRestaurntDto } from './dtos/create-restaurant.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { QueryString } from 'src/types/QueryString';
 import { PaginationPipe } from 'src/pipes/Pagination.pipe';

@@ -24,7 +24,6 @@ import { OrderModule } from './modules/order/order.module';
 import { CartModule } from './modules/order/cart/cart.module';
 import { PermissionsModule } from './modules/permissions/permissions.module';
 import { Payload } from './types/jwtAuthTyoe';
-import { v2 as cloudinary } from 'cloudinary';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
 import * as path from 'path';
@@ -34,13 +33,14 @@ import {
   I18nModule,
   QueryResolver,
 } from 'nestjs-i18n';
+import conf from './config/conf';
+import stripe from './config/stripe';
 
 @Module({
   imports: [
     CacheModule.register({
       isGlobal: true,
-      ttl: 10,
-      max: 10,
+      ttl: 30 * 1000,
     }),
 
     I18nModule.forRoot({
@@ -57,16 +57,19 @@ import {
       ],
     }),
 
-    ThrottlerModule.forRoot([
-      {
-        ttl: 60000,
-        limit: 15,
-      },
-    ]),
+    // ThrottlerModule.forRoot([
+    //   {
+    //     ttl: 60000,
+    //     limit: 100,
+    //   },
+    // ]),
     ConfigModule.forRoot({
       isGlobal: true,
+      load: [conf, stripe],
     }),
-    MongooseModule.forRoot(process.env.MONGO_URL),
+    MongooseModule.forRoot(process.env.MONGO_URL, {
+      maxPoolSize: 10,
+    }),
     UserModule,
     AdminModule,
     AuthModule,
@@ -91,17 +94,12 @@ import {
       provide: APP_FILTER,
       useClass: AllExceptionFilter,
     },
-    { provide: APP_GUARD, useClass: ThrottlerGuard },
+
+    // { provide: APP_GUARD, useClass: ThrottlerGuard },
   ],
 })
 export class AppModule implements NestModule {
-  constructor() {
-    cloudinary.config({
-      cloud_name: process.env.CLOUDNAIRY_CLOUD_NAME,
-      api_key: process.env.CLOUDNAIRY_CLOUD_KEY,
-      api_secret: process.env.CLOUDNAIRY_CLOUD_SECRET,
-    });
-  }
+  constructor() {}
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(RequestLooger, CorsConfiguration).forRoutes('*');
   }

@@ -17,13 +17,13 @@ export class Restaurant {
   @Prop()
   image: string;
 
-  @Prop({ required: true })
+  @Prop({})
   phoneNumber: string;
 
-  @Prop({ required: true })
+  @Prop({})
   cuisine: string;
 
-  @Prop({ type: mongoose.Schema.ObjectId, ref: 'meuItem' })
+  @Prop({ type: mongoose.Schema.ObjectId, ref: 'MenuItem' })
   menuItems: MenuItem[];
 }
 
