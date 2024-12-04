@@ -26,7 +26,7 @@ export class User extends Document {
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Order' }], default: [] })
   previousOrders: Types.ObjectId[];
 
-  @Prop({ required: true, enum: ['user'], default: 'user' })
+  @Prop({ required: true, default: 'user' })
   role: string;
   @Prop()
   image: string;

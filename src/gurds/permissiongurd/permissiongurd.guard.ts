@@ -4,18 +4,19 @@ import {
   Injectable,
   mixin,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { JWTAuthService } from 'src/modules/utlis/JWTAuthServicer.service';
 export const permissiongurd = (permissiongurd: string): any => {
   @Injectable()
   class permissionMixin implements CanActivate {
-    constructor(private readonly jwtService: JwtService) {}
+    constructor(private readonly JWTAuthService: JWTAuthService) {}
 
     async canActivate(context: ExecutionContext) {
       const req = context.switchToHttp().getRequest();
-      const { authCookie: authToken } = req.cookies;
+      const { authCookie: token } = req.cookies;
 
-      const decoded = await this.jwtService.verify(authToken, {
-        secret: process.env.ADMIN_AUTH_TOKEN_SECRET,
+      const decoded = await this.JWTAuthService.VerifyAuthToken({
+        token,
+        secret: process.env.ADMIN_AUTH_TOKEN_SECRET as string,
       });
 
       if (decoded.payload.role === 'superAdmin') {

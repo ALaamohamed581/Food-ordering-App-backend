@@ -15,18 +15,18 @@ export const AuthGuard = (role: string): any => {
     async canActivate(context: ExecutionContext): Promise<boolean> {
       let secret: string;
       const request = context.switchToHttp().getRequest();
-      const { authCookie: authToken } = request.cookies;
+      const { authCookie: token } = request.cookies;
 
       if (role === 'admin') {
         secret = process.env.ADMIN_AUTH_TOKEN_SECRET as string;
       } else {
         secret = process.env.USER_AUTH_TOKEN_SECRET as string;
       }
-      if (!authToken) {
+      if (!token) {
         throw new UnauthorizedException('No auth cookie found');
       }
       try {
-        const decoded = this.JWTAuthService.VerifyAuthToken(authToken, secret);
+        const decoded = this.JWTAuthService.VerifyAuthToken({ token, secret });
 
         request.payload = decoded.payload;
 

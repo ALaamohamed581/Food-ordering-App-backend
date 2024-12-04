@@ -68,7 +68,7 @@ import { CartModule } from './modules/cart/cart.module';
       load: [conf, stripe],
     }),
     MongooseModule.forRoot(process.env.MONGO_URL, {
-      maxPoolSize: 10,
+      maxPoolSize: 100,
     }),
     UserModule,
     AdminModule,
