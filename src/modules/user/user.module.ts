@@ -5,7 +5,7 @@ import { User, UserSchema } from './schemas/user.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { JwtService } from '@nestjs/jwt';
 import { FilterPipe } from 'src/pipes/filterPipe';
-import { JWTAuthService } from 'src/utlis/JWTAuthServicer.service';
+import { JWTAuthService } from 'src/modules/utlis/JWTAuthServicer.service';
 
 @Module({
   imports: [

@@ -2,12 +2,12 @@ import { Module } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { PaymentController } from './payment.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Cart, CartSchema } from '../order/cart/schams/cart.schema';
-import { CartService } from '../order/cart/cart.service';
 import {
   MenuItem,
   MenuItemSchema,
 } from '../menu-itme/schemas/Resturant.schmea';
+import { CartService } from '../cart/cart.service';
+import { Cart, CartSchema } from '../cart/schams/cart.schema';
 
 @Module({
   controllers: [PaymentController],

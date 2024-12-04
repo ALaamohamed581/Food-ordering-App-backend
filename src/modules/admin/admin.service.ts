@@ -8,7 +8,7 @@ import { Model } from 'mongoose';
 import { Admin } from './schemas/admin.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateAdminDto } from './dto/creaeteAdmin.dto';
-import { Email } from 'src/utlis/Email.service';
+import { Email } from 'src/modules/utlis/Email.service';
 import * as argon2 from 'argon2';
 import { UpdatePasswordDTO } from 'src/DTOs/update-password.dto';
 import { I18nService, I18nContext } from 'nestjs-i18n';

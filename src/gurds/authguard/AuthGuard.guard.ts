@@ -5,7 +5,7 @@ import {
   mixin,
   UnauthorizedException,
 } from '@nestjs/common';
-import { JWTAuthService } from 'src/utlis/JWTAuthServicer.service';
+import { JWTAuthService } from 'src/modules/utlis/JWTAuthServicer.service';
 
 export const AuthGuard = (role: string): any => {
   @Injectable()

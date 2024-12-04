@@ -12,7 +12,7 @@ import { AuthService } from '../auth/auth.service';
 import { Request, Response } from 'express';
 import { ApiOperation } from '@nestjs/swagger';
 import { CreateUserDto } from '../user/dto/create-user.dto';
-import { JWTAuthService } from 'src/utlis/JWTAuthServicer.service';
+import { JWTAuthService } from 'src/modules/utlis/JWTAuthServicer.service';
 import { SignIn } from 'src/Interceptores/Signin.intecptor';
 import { Santiztion } from 'src/pipes/sanitiztaion.pip';
 import { FileInterceptor } from '@nestjs/platform-express';

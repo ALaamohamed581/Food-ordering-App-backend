@@ -10,7 +10,7 @@ import { Model } from 'mongoose';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import * as argon2 from 'argon2';
 
-import { JWTAuthService } from 'src/utlis/JWTAuthServicer.service';
+import { JWTAuthService } from 'src/modules/utlis/JWTAuthServicer.service';
 
 @Injectable()
 export class AuthService {

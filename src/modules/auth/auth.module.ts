@@ -5,7 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtService } from '@nestjs/jwt';
-import { UtlisModule } from 'src/utlis/utlis.module';
+import { UtlisModule } from 'src/modules/utlis/utlis.module';
 
 @Module({
   imports: [

@@ -2,9 +2,9 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import Stripe from 'stripe';
 import { MenuItem } from '../menu-itme/schemas/Resturant.schmea';
 import { InjectModel } from '@nestjs/mongoose';
-import { Cart } from '../order/cart/schams/cart.schema';
 import { Model } from 'mongoose';
 import * as paypal from '@paypal/checkout-server-sdk';
+import { Cart } from '../cart/schams/cart.schema';
 
 @Injectable()
 export class PaymentService {
@@ -13,7 +13,6 @@ export class PaymentService {
   constructor(
     @InjectModel(Cart.name) private cartModel: Model<Cart>,
     @InjectModel(MenuItem.name) private menuModel: Model<MenuItem>,
-    
   ) {
     this.stripe = new Stripe(process.env.STRIPE_API_KEY);
     this.paypal = new paypal.core.PayPalHttpClient(
