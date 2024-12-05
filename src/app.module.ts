@@ -38,6 +38,7 @@ import { CartModule } from './modules/cart/cart.module';
 
 @Module({
   imports: [
+    UtlisModule.forRoot(),
     CacheModule.register({
       isGlobal: true,
       ttl: 30 * 1000,

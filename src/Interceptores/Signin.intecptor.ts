@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { Observable, tap } from 'rxjs';
 import { JWTAuthService } from 'src/modules/utlis/JWTAuthServicer.service';
-import { Payload } from '../types/JWTTypes';
+
 export const SignIn = ({ role, authSecret = '', refSecret = '' }): any => {
   @Injectable()
   class SignInMixin implements NestInterceptor {

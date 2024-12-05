@@ -1,10 +1,12 @@
-import { Module } from '@nestjs/common';
+import { DynamicModule, Module } from '@nestjs/common';
 import { JWTAuthService } from './JWTAuthServicer.service';
 import { Email } from './Email.service';
 import { JwtService } from '@nestjs/jwt';
 
 @Module({
-  providers: [JWTAuthService, Email, JwtService],
-  exports: [JWTAuthService, Email],
 })
-export class UtlisModule {}
+export class UtlisModule {
+  static  forRoot():DynamicModule {
+    return  {module:UtlisModule,providers:[JWTAuthService, Email, JwtService],exports:  [JWTAuthService, Email],global:true}
+  }
+}

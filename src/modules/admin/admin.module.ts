@@ -12,6 +12,6 @@ import { JWTAuthService } from 'src/modules/utlis/JWTAuthServicer.service';
     MongooseModule.forFeature([{ name: Admin.name, schema: AdminSchema }]),
   ],
   controllers: [AdminController],
-  providers: [AdminService, Email, JwtService, JWTAuthService],
+  providers: [AdminService],
 })
 export class AdminModule {}
