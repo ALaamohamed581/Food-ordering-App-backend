@@ -34,6 +34,6 @@ export class ImagesPipe implements PipeTransform {
       }),
     );
 
-    return imageUrls.length === 1 ? imageUrls[0] : imageUrls;
+    return imageUrls;
   }
 }

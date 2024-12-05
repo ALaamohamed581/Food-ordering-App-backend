@@ -27,8 +27,8 @@ export class RestaurantService {
     const total = await this.restaurantModel
       .find(queryStr)
       .countDocuments()
-
       .exec();
+
     const numberOfPages = Math.ceil(total / limit);
 
     const resturants: CreateRestaurntDto[] = await this.restaurantModel
@@ -38,8 +38,8 @@ export class RestaurantService {
       .sort(sort)
       .select(fields)
       .populate('menuItems')
-      .lean()
-      .exec();
+      .lean();
+
     return {
       data: resturants,
       numberOfPages,
@@ -47,7 +47,7 @@ export class RestaurantService {
     };
   }
   async getOne(id: string) {
-    return await this.restaurantModel.findOne({ id }).sort().lean().exec();
+    return await this.restaurantModel.findById(id);
   }
   async addMenuItem(id: string, addMenuItem: any): Promise<Restaurant> {
     return this.restaurantModel.findByIdAndUpdate(

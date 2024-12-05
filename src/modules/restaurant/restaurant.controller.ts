@@ -25,9 +25,9 @@ export class RestaurantController {
   @UseInterceptors(FileInterceptor('image'))
   createResturnt(
     @Body() restaurant: CreateRestaurntDto,
-    @UploadedFile(new ImagesPipe()) iamgeUrl: string,
+    @UploadedFile(new ImagesPipe()) iamgeUrls: string,
   ) {
-    restaurant.image = iamgeUrl || '';
+    [restaurant.image] = iamgeUrls || '';
     return this.restaurantService.create(restaurant);
   }
   @Get()

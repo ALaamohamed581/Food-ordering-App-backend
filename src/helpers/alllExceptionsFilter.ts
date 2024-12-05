@@ -25,6 +25,7 @@ export class AllExceptionFilter extends BaseExceptionFilter {
       reponse: '',
     };
     if (exception instanceof HttpException) {
+      console.log(exception);
       myResponse.statusCode = exception.getStatus();
       myResponse.reponse = exception.getResponse();
     } else if (exception instanceof MongooseError) {
