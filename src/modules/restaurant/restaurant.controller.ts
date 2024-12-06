@@ -13,7 +13,7 @@ import { RestaurantService } from './restaurant.service';
 import { CreateRestaurntDto } from './dto/create-restaurant.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { QueryString } from 'src/types/QueryString';
-import { PaginationPipe } from 'src/pipes/Pagination.pipe';
+import { PaginationPipe } from 'src/pipes/pagination.pipe';
 import { ImagesPipe } from 'src/pipes/images.pipe';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 @UseInterceptors(CacheInterceptor)

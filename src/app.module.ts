@@ -9,12 +9,12 @@ declare module 'Express' {
 import { Logger, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { RequestLooger } from './middlewares/Logger';
-import { CorsConfiguration } from './middlewares/CorsConfiguration';
+import { RequestLooger } from './middlewares/logger';
+import { CorsConfiguration } from './middlewares/corsConfiguration';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AdminModule } from './modules/admin/admin.module';
-import { AllExceptionFilter } from './helpers/alllExceptionsFilter';
+import { AllExceptionFilter } from './helpers/allExceptionsFilter';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { UtlisModule } from './modules/utlis/utlis.module';
 import { RestaurantModul } from './modules/restaurant/restaurant.module';

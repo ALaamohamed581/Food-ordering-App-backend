@@ -11,7 +11,7 @@ import * as argon2 from 'argon2';
 import { paginatedData, QueryString } from 'src/types/QueryString';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdatePasswordDTO } from '../../../DTOs/update-password.dto';
+import { UpdatePasswordDto } from '../../../dto\'s/./updatePassword.dto';
 
 @Injectable()
 export class UserService {
@@ -70,7 +70,7 @@ export class UserService {
     return this.userModel.findOne({ email }, updateUserDto, { new: true });
   }
 
-  async updatedPassword(id: string, passwordsData: UpdatePasswordDTO) {
+  async updatedPassword(id: string, passwordsData: UpdatePasswordDto) {
     const { Oldpassword, newPassword } = passwordsData;
 
     const exsitingUser = await this.userModel.findById(id);

@@ -1,7 +1,6 @@
 import  {WebSocketGateway,SubscribeMessage,WebSocketServer,MessageBody} from "@nestjs/websockets"
-import { OnModuleInit, UseInterceptors } from '@nestjs/common';
+import { OnModuleInit } from '@nestjs/common';
 import {Server} from 'socket.io'
-import { ExamPle } from '../../Interceptores/example.intercepot';
 import { JWTAuthService } from '../../modules/utlis/JWTAuthServicer.service';
 @WebSocketGateway()
 export class ChatGateway implements OnModuleInit {
@@ -20,7 +19,7 @@ export class ChatGateway implements OnModuleInit {
     this.server.emit('newSentMessage', data);
     return data;
   }
-// @UseInterceptors(ExamPle)
+
   @SubscribeMessage('privateChatMessage')
   privateChatMessage(
     @MessageBody() data: { targetClientId: string; messageInterface: string },

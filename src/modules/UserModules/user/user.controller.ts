@@ -17,7 +17,7 @@ import { Request } from 'express';
 import { ApiCookieAuth } from '@nestjs/swagger';
 import { AuthGuard } from 'src/gurds/authguard/authGuard.guard';
 import { FilterPipe } from 'src/pipes/filterPipe';
-import { PaginationPipe } from 'src/pipes/Pagination.pipe';
+import { PaginationPipe } from 'src/pipes/pagination.pipe';
 import { paginatedData, QueryString } from 'src/types/QueryString';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -63,7 +63,7 @@ export class UserController {
   // @ApiCookieAuth('authCookie')
   // @UseGuards(AuthGuard(process.env.AUTH_TOKEN_SECRET))
   // @Patch('password')
-  // updatedPassword(@Body(new FilterPipe()) passowrdsData: UpdatePasswordDTO) {
+  // updatedPassword(@Body(new FilterPipe()) passowrdsData: UpdatePasswordDto) {
   //   return 'password updated succefuly';
   // }
 

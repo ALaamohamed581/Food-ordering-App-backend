@@ -10,7 +10,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { CreateAdminDto } from './dto/creaeteAdmin.dto';
 import { Email } from 'src/modules/utlis/Email.service';
 import * as argon2 from 'argon2';
-import { UpdatePasswordDTO } from 'src/DTOs/update-password.dto';
+import { UpdatePasswordDto } from 'src/dto\'s/updatePassword.dto';
 import { I18nService, I18nContext } from 'nestjs-i18n';
 @Injectable()
 export class AdminService {
@@ -57,7 +57,7 @@ export class AdminService {
 
     return exsisntADmin;
   }
-  async updatedPassword(email: string, passwordsData: UpdatePasswordDTO) {
+  async updatedPassword(email: string, passwordsData: UpdatePasswordDto) {
     const { Oldpassword, newPassword } = passwordsData;
     console.log();
     const exsitingUser = await this.adminModel

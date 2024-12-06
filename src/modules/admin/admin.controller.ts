@@ -15,10 +15,10 @@ import { Request } from 'express';
 import { ApiCookieAuth } from '@nestjs/swagger';
 import { AuthGuard } from 'src/gurds/authguard/authGuard.guard';
 import { FilterPipe } from 'src/pipes/filterPipe';
-import { UpdatePasswordDTO } from 'src/DTOs/update-password.dto';
-import { SignIn } from 'src/Interceptores/Signin.intecptor';
+import { UpdatePasswordDto } from 'src/dtos/updatePassword.dto';
+import { SignIn } from 'src/Interceptores/signin.intecptor';
 import { Santiztion } from 'src/pipes/sanitiztaion.pip';
-import { PaginationPipe } from 'src/pipes/Pagination.pipe';
+import { PaginationPipe } from 'src/pipes/pagination.pipe';
 import { QueryString } from 'src/types/QueryString';
 import { Admin } from './schemas/admin.schema';
 @Controller('admins')
@@ -57,7 +57,7 @@ export class AdminController {
   updatedPassword(
     @Req() req: Request,
 
-    @Body(new FilterPipe()) passowrdsData: UpdatePasswordDTO,
+    @Body(new FilterPipe()) passowrdsData: UpdatePasswordDto,
   ) {
     const email = req.payload.email;
 

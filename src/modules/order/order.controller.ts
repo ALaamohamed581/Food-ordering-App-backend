@@ -11,7 +11,7 @@ import {
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
-import { PaginationPipe } from 'src/pipes/Pagination.pipe';
+import { PaginationPipe } from 'src/pipes/pagination.pipe';
 import { QueryString } from 'src/types/QueryString';
 @Controller('orders')
 export class OrderController {
