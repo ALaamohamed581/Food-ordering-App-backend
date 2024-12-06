@@ -2,6 +2,7 @@ import { Controller, Get, Req, Res } from '@nestjs/common';
 import { AppService } from './app.service';
 // import { generateToken, doubleCsrfUtilities } from './config/csrfConfig';
 import { Request, Response } from 'express';
+import { generateToken } from './config/csrf.config';
 
 @Controller()
 export class AppController {
@@ -9,8 +10,8 @@ export class AppController {
 
   @Get('/CSRF')
   getHello(@Req() req: Request, @Res() res: Response) {
-    // const csrfToken = generateToken(req, res, true, true); // Generates CSRF token
+     // const csrfToken = generateToken(req, res, true, true);
 
-    res.json(' welcome'); // Send the token as part of the response for use in headers.
+    res.json(' welcome');
   }
 }

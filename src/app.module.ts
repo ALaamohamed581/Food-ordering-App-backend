@@ -1,3 +1,5 @@
+import { doubleCsrfProtection } from './config/csrf.config';
+
 declare module 'Express' {
   interface Request {
     payload: Payload;
@@ -35,7 +37,7 @@ import {
 import conf from './config/conf';
 import stripe from './config/stripe';
 import { CartModule } from './modules/cart/cart.module';
-
+import {ChatGateway} from './gateways/chat/chat.gateway'
 @Module({
   imports: [
     UtlisModule.forRoot(),
@@ -75,7 +77,7 @@ import { CartModule } from './modules/cart/cart.module';
     AdminModule,
     AuthModule,
     RestaurantModul,
-    UtlisModule,
+
     CartModule,
     PaymentModule,
     MenuItmeModule,
@@ -95,6 +97,7 @@ import { CartModule } from './modules/cart/cart.module';
       provide: APP_FILTER,
       useClass: AllExceptionFilter,
     },
+    ChatGateway,
 
     // { provide: APP_GUARD, useClass: ThrottlerGuard },
   ],
@@ -102,6 +105,7 @@ import { CartModule } from './modules/cart/cart.module';
 export class AppModule implements NestModule {
   constructor() {}
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(RequestLooger, CorsConfiguration).forRoutes('*');
+    consumer.apply(RequestLooger, CorsConfiguration,/*doubleCsrfProtection*/).forRoutes('*');
   }
 }
+
