@@ -7,7 +7,8 @@ import {
   Query,
   Put,
   Req,
-  UseInterceptors,
+  Post,
+  UseInterceptors, Patch, Inject, forwardRef,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -20,13 +21,18 @@ import { PaginationPipe } from 'src/pipes/Pagination.pipe';
 import { paginatedData, QueryString } from 'src/types/QueryString';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { UserChatsService } from '../user-chats/user-chats.service';
+import { CreateUserChatsDto } from '../user-chats/dto/create-user-chat.dto';
+@UseInterceptors(CacheInterceptor)
+
 
 @Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService,
+              private readonly UserChate: UserChatsService) {}
 
   @Get()
-  @UseInterceptors(CacheInterceptor)
+
   @UseInterceptors(FileInterceptor('image'))
   async getAllusers(
     @Query(new PaginationPipe())
@@ -60,4 +66,23 @@ export class UserController {
   // updatedPassword(@Body(new FilterPipe()) passowrdsData: UpdatePasswordDTO) {
   //   return 'password updated succefuly';
   // }
+
+  @Post('/user-chats')
+  create(@Body() CreateUserChatsDto:CreateUserChatsDto){
+    return this.UserChate.create((CreateUserChatsDto))
+  }
+  @Get('/user-chats')
+  gerAllChats( @Query(new PaginationPipe()){ fields, limit, queryStr, skip, page, sort }: QueryString,){
+  return   this.UserChate.getAll({ fields, limit, queryStr, skip, page, sort })
+  }
+  @UseGuards(AuthGuard('user'))
+  @Get(':chatId/user-chats')
+ async getOneChat(@Req()req:Request,@Param('chatId') chatId:string ){
+    return   this.UserChate.getOne(req.payload._id as string,chatId)
+  }
+  @UseGuards(AuthGuard('user'))
+  @Patch(':chatId/user-chats')
+  async updateOneChat(@Req()req:Request,@Param('chatId') chatId:string ){
+    return   this.UserChate.getOne(req.payload._id as string,chatId)
+  }
 }

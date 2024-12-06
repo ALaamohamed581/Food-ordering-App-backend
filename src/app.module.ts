@@ -1,3 +1,5 @@
+import { doubleCsrfProtection } from './config/csrf.config';
+
 declare module 'Express' {
   interface Request {
     payload: Payload;
@@ -12,8 +14,6 @@ import { CorsConfiguration } from './middlewares/CorsConfiguration';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AdminModule } from './modules/admin/admin.module';
-import { AuthModule } from './modules/auth/auth.module';
-import { UserModule } from './modules/user/user.module';
 import { AllExceptionFilter } from './helpers/alllExceptionsFilter';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { UtlisModule } from './modules/utlis/utlis.module';
@@ -33,18 +33,21 @@ import {
   QueryResolver,
 } from 'nestjs-i18n';
 import conf from './config/conf';
-import stripe from './config/stripe';
-import { CartModule } from './modules/cart/cart.module';
 
+import { CartModule } from './modules/cart/cart.module';
+import { ChatGateway } from './gateways/chat/chat.gateway';
+import { AuthModule } from './modules/UserModules/auth/auth.module';
+import { UserModule } from './modules/UserModules/user/user.module';
 @Module({
   imports: [
     UtlisModule.forRoot(),
     CacheModule.register({
       isGlobal: true,
-      ttl: 30 * 1000,
+      ttl: 60 * 1000,
     }),
 
     I18nModule.forRoot({
+
       fallbackLanguage: 'en',
       loaderOptions: {
         path: path.join(__dirname, '/i18n/'),
@@ -56,31 +59,34 @@ import { CartModule } from './modules/cart/cart.module';
         AcceptLanguageResolver,
         new HeaderResolver(['x-lang']),
       ],
+
     }),
 
-    // ThrottlerModule.forRoot([
-    //   {
-    //     ttl: 60000,
-    //     limit: 100,
-    //   },
-    // ]),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 100,
+      },
+    ]),
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [conf, stripe],
+      load: [conf],
     }),
     MongooseModule.forRoot(process.env.MONGO_URL, {
       maxPoolSize: 100,
+
     }),
     UserModule,
     AdminModule,
     AuthModule,
     RestaurantModul,
-    UtlisModule,
+
     CartModule,
     PaymentModule,
     MenuItmeModule,
     OrderModule,
     PermissionsModule,
+
   ],
   controllers: [AppController],
   providers: [
@@ -95,13 +101,15 @@ import { CartModule } from './modules/cart/cart.module';
       provide: APP_FILTER,
       useClass: AllExceptionFilter,
     },
+    ChatGateway,
 
-    // { provide: APP_GUARD, useClass: ThrottlerGuard },
+    { provide: APP_GUARD, useClass: ThrottlerGuard },
   ],
 })
 export class AppModule implements NestModule {
   constructor() {}
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(RequestLooger, CorsConfiguration).forRoutes('*');
+    consumer.apply(RequestLooger, CorsConfiguration,/*doubleCsrfProtection*/).forRoutes('*');
   }
 }
+
