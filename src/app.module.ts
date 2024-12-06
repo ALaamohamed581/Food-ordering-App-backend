@@ -62,12 +62,12 @@ import { UserModule } from './modules/UserModules/user/user.module';
 
     }),
 
-    // ThrottlerModule.forRoot([
-    //   {
-    //     ttl: 60000,
-    //     limit: 100,
-    //   },
-    // ]),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 100,
+      },
+    ]),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [conf],
@@ -103,7 +103,7 @@ import { UserModule } from './modules/UserModules/user/user.module';
     },
     ChatGateway,
 
-    // { provide: APP_GUARD, useClass: ThrottlerGuard },
+    { provide: APP_GUARD, useClass: ThrottlerGuard },
   ],
 })
 export class AppModule implements NestModule {
