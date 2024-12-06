@@ -43,7 +43,7 @@ import { UserModule } from './modules/UserModules/user/user.module';
     UtlisModule.forRoot(),
     CacheModule.register({
       isGlobal: true,
-      ttl: 30 * 1000,
+      ttl: 60 * 1000,
     }),
 
     I18nModule.forRoot({
