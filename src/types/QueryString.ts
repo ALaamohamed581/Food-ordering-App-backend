@@ -8,7 +8,7 @@ export type QueryString = {
 };
 
 export type paginatedData = {
-  data: any;
+  data: unknown;
   numberOfPages: number;
   page: number;
 };

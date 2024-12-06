@@ -14,8 +14,6 @@ import { CorsConfiguration } from './middlewares/CorsConfiguration';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AdminModule } from './modules/admin/admin.module';
-import { AuthModule } from './modules/auth/auth.module';
-import { UserModule } from './modules/user/user.module';
 import { AllExceptionFilter } from './helpers/alllExceptionsFilter';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { UtlisModule } from './modules/utlis/utlis.module';
@@ -35,9 +33,11 @@ import {
   QueryResolver,
 } from 'nestjs-i18n';
 import conf from './config/conf';
-import stripe from './config/stripe';
+
 import { CartModule } from './modules/cart/cart.module';
-import {ChatGateway} from './gateways/chat/chat.gateway'
+import { ChatGateway } from './gateways/chat/chat.gateway';
+import { AuthModule } from './modules/UserModules/auth/auth.module';
+import { UserModule } from './modules/UserModules/user/user.module';
 @Module({
   imports: [
     UtlisModule.forRoot(),
@@ -47,6 +47,7 @@ import {ChatGateway} from './gateways/chat/chat.gateway'
     }),
 
     I18nModule.forRoot({
+
       fallbackLanguage: 'en',
       loaderOptions: {
         path: path.join(__dirname, '/i18n/'),
@@ -58,6 +59,7 @@ import {ChatGateway} from './gateways/chat/chat.gateway'
         AcceptLanguageResolver,
         new HeaderResolver(['x-lang']),
       ],
+
     }),
 
     // ThrottlerModule.forRoot([
@@ -68,10 +70,11 @@ import {ChatGateway} from './gateways/chat/chat.gateway'
     // ]),
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [conf, stripe],
+      load: [conf],
     }),
     MongooseModule.forRoot(process.env.MONGO_URL, {
       maxPoolSize: 100,
+
     }),
     UserModule,
     AdminModule,
@@ -83,6 +86,7 @@ import {ChatGateway} from './gateways/chat/chat.gateway'
     MenuItmeModule,
     OrderModule,
     PermissionsModule,
+
   ],
   controllers: [AppController],
   providers: [

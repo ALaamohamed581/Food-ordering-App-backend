@@ -26,7 +26,7 @@ export class ChatGateway implements OnModuleInit {
     @MessageBody() data: { targetClientId: string; messageInterface: string },
   ) {
     this.server.to(data.targetClientId).emit('privateChatMessage', data);
-    console.log(data)
+
   }
 
 }

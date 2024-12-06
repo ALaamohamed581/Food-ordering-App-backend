@@ -7,11 +7,11 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
 import { Model } from 'mongoose';
-import { UpdatePasswordDTO } from '../../DTOs/update-password.dto';
 import * as argon2 from 'argon2';
 import { paginatedData, QueryString } from 'src/types/QueryString';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdatePasswordDTO } from '../../../DTOs/update-password.dto';
 
 @Injectable()
 export class UserService {
