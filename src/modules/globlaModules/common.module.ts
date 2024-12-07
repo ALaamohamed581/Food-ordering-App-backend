@@ -16,10 +16,10 @@ import { AllExceptionFilter } from '../../common/helpers/allExceptionsFilter'; /
 import { SignIn } from '../../common/Interceptores/signin.intecptor';
 
 @Module({})
-export class CommonModule {
+export class GlobalModlue {
   static forRoot(): DynamicModule {
     return {
-      module: CommonModule,
+      module: GlobalModlue,
       imports: [
         CacheModule.register({
           isGlobal: true,

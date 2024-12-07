@@ -15,12 +15,12 @@ import { CartModule } from './modules/cart/cart.module';
 import { AuthModule } from './modules/UserModules/auth/auth.module';
 import { UserModule } from './modules/UserModules/user/user.module';
 import { ChatGateway } from './common/gateways/chat/chat.gateway';
-import { CommonModule } from './modules/common/common.module';
+import { GlobalModlue } from './modules/globlaModules/common.module';
 
 @Module({
   imports: [
     UtlisModule.forRoot(),
-    CommonModule.forRoot(),
+    GlobalModlue.forRoot(),
     UserModule,
     AdminModule,
     AuthModule,
