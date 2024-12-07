@@ -1,6 +1,4 @@
-Here's an updated version of your **Food Ordering App** README with the additional features for live chat and a chat module included:
 
----
 
 # Food Ordering App
 
@@ -87,8 +85,7 @@ A streamlined food ordering application built with **NestJS**, featuring authent
    STRIPE_API_KEY=
    PAYPAL_CLIENT_ID=
    PAYPAL_CLIENT_SECRET=
-   CHAT_SECRET_KEY=
-   SOCKET_PORT=
+  
    ```
 
 4. **Run the Application**  
