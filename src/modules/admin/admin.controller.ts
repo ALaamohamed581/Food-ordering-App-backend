@@ -13,14 +13,14 @@ import { AdminService } from './admin.service';
 import { CreateAdminDto } from './dto/creaeteAdmin.dto';
 import { Request } from 'express';
 import { ApiCookieAuth } from '@nestjs/swagger';
-import { AuthGuard } from 'src/gurds/authguard/authGuard.guard';
-import { FilterPipe } from 'src/pipes/filterPipe';
-import { UpdatePasswordDto } from 'src/dtos/updatePassword.dto';
-import { SignIn } from 'src/Interceptores/signin.intecptor';
-import { Santiztion } from 'src/pipes/sanitiztaion.pip';
-import { PaginationPipe } from 'src/pipes/pagination.pipe';
 import { QueryString } from 'src/types/QueryString';
 import { Admin } from './schemas/admin.schema';
+import { Santiztion } from 'src/common/pipes/sanitiztaion.pip';
+import { SignIn } from 'src/common/Interceptores/signin.intecptor';
+import { AuthGuard } from 'src/common/gurds/authguard/authGuard.guard';
+import { FilterPipe } from 'src/common/pipes/filterPipe';
+import { PaginationPipe } from 'src/common/pipes/pagination.pipe';
+import { UpdatePasswordDto } from 'src/common/dtos/updatePassword.dto';
 @Controller('admins')
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}

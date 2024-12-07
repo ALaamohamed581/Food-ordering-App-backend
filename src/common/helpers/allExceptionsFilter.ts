@@ -1,8 +1,8 @@
 import { ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
-import { MyLoggerService } from '../modules/my-logger/my-logger.service';
 import { Request, Response } from 'express';
 import { MongooseError } from 'mongoose';
+import { MyLoggerService } from 'src/modules/my-logger/my-logger.service';
 
 type ResponseObject = {
   statusCode: number;
@@ -25,7 +25,6 @@ export class AllExceptionFilter extends BaseExceptionFilter {
       reponse: '',
     };
     if (exception instanceof HttpException) {
-      console.log(exception);
       myResponse.statusCode = exception.getStatus();
       myResponse.reponse = exception.getResponse();
     } else if (exception instanceof MongooseError) {
@@ -39,7 +38,6 @@ export class AllExceptionFilter extends BaseExceptionFilter {
       myResponse.reponse = 'INTERNAL SERVER ERROR'.toLowerCase();
     }
 
-    console.log(exception.message);
     response.status(myResponse.statusCode).json(myResponse);
 
     this.logger.error(myResponse.reponse, AllExceptionFilter.name);

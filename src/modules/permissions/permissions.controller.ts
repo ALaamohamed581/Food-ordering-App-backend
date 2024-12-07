@@ -14,11 +14,11 @@ import {
 import { PermissionsService } from './permissions.service';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
-import { PaginationPipe } from 'src/pipes/pagination.pipe';
 import { QueryString } from 'src/types/QueryString';
-import { permissiongurd } from 'src/gurds/permissiongurd/permissiongurd.guard';
 import { Request } from 'express';
 import { CacheInterceptor } from '@nestjs/cache-manager';
+import { PaginationPipe } from 'src/common/pipes/pagination.pipe';
+import { permissiongurd } from 'src/common/gurds/permissiongurd/permissiongurd.guard';
 
 @Controller('permissions')
 export class PermissionsController {

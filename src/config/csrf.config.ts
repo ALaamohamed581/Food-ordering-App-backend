@@ -1,9 +1,8 @@
 import { doubleCsrf, DoubleCsrfConfig } from 'csrf-csrf';
 import { Request } from 'express';
-import { HttpError } from 'http-errors'; // Ensure you import HttpError
 
 export const doubleCsrfUtilities: DoubleCsrfConfig = {
-  getSessionIdentifier: (req) => '', // Ensure you provide a session identifier.
+  getSessionIdentifier: () => '', // Ensure you provide a session identifier.
   cookieName: 'x-csrf-token',
   getSecret: () => process.env.CSRF_SECRET, // Ensure `CSRF_SECRET` is set in `.env`.
   cookieOptions: {

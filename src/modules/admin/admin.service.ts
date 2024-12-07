@@ -10,8 +10,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { CreateAdminDto } from './dto/creaeteAdmin.dto';
 import { Email } from 'src/modules/utlis/Email.service';
 import * as argon2 from 'argon2';
-import { UpdatePasswordDto } from 'src/dto\'s/updatePassword.dto';
-import { I18nService, I18nContext } from 'nestjs-i18n';
+import { UpdatePasswordDto } from 'src/common/dtos/updatePassword.dto';
+import { I18nContext, I18nService } from 'nestjs-i18n';
 @Injectable()
 export class AdminService {
   constructor(

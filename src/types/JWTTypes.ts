@@ -1,5 +1,5 @@
 import { Admin } from 'src/modules/admin/schemas/admin.schema';
-import { User } from '../modules/UserModules/user/schemas/user.schema';
+import { User } from 'src/modules/UserModules/user/schemas/user.schema';
 
 export type TokenData = {
   token: string;

@@ -11,8 +11,9 @@ import {
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
-import { PaginationPipe } from 'src/pipes/pagination.pipe';
+
 import { QueryString } from 'src/types/QueryString';
+import { PaginationPipe } from 'src/common/pipes/pagination.pipe';
 @Controller('orders')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}

@@ -5,22 +5,29 @@ import { InjectModel } from '@nestjs/mongoose';
 import { UserChats } from './schema/userChats.schema';
 import { Model } from 'mongoose';
 import { paginatedData, QueryString } from '../../../types/QueryString';
- import { UserService } from '../user/user.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class UserChatsService {
-  constructor(@InjectModel(UserChats.name) private readonly UserChats:Model<UserChats>
-                 ,private readonly  userService:UserService) {
-  }
+  constructor(
+    @InjectModel(UserChats.name) private readonly UserChats: Model<UserChats>,
+    private readonly userService: UserService,
+  ) {}
   create(createUserChatDto: CreateUserChatsDto) {
     return this.UserChats.create(createUserChatDto);
   }
 
-  async getAll({ fields, limit, queryStr, skip, page, sort }:QueryString):Promise<paginatedData> {
-     const total = await this.UserChats.find(queryStr).countDocuments();
+  async getAll({
+    fields,
+    limit,
+    queryStr,
+    skip,
+    page,
+    sort,
+  }: QueryString): Promise<paginatedData> {
+    const total = await this.UserChats.find(queryStr).countDocuments();
     const numberOfPages = Math.ceil(total / limit);
-    const users = await this.UserChats
-      .find(queryStr)
+    const users = await this.UserChats.find(queryStr)
       .skip(skip)
       .limit(limit)
       .sort(sort)
@@ -34,27 +41,27 @@ export class UserChatsService {
     };
   }
 
- async getOne(id: string,ChatId:string) {
-   await this.userService.findOne((id));
-  const exsistingChat=await  this.UserChats.findById(ChatId)
-   if(!exsistingChat)
-     return new NotFoundException(`chat does not exist`);
+  async getOne(id: string, ChatId: string) {
+    await this.userService.findOne(id);
+    const exsistingChat = await this.UserChats.findById(ChatId);
+    if (!exsistingChat) return new NotFoundException(`chat does not exist`);
 
-   return exsistingChat
+    return exsistingChat;
   }
 
-  async updateOneChat(id: string,chatId:string ,updateUserChatDto: UpdateUserChatsDto) {
-    await this.userService.findOne((id));
+  async updateOneChat(
+    id: string,
+    chatId: string,
+    updateUserChatDto: UpdateUserChatsDto,
+  ) {
+    await this.userService.findOne(id);
     const exsitingChat = await this.UserChats.findOneAndUpdate(
-      {_id: chatId },
+      { _id: chatId },
       updateUserChatDto,
     );
-    if (!exsitingChat)
-      return new NotFoundException(`chat does not exist`);
+    if (!exsitingChat) return new NotFoundException(`chat does not exist`);
 
-    return exsitingChat
-
-
+    return exsitingChat;
   }
 
   remove(id: number) {

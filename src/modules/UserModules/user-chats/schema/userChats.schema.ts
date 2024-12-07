@@ -1,16 +1,16 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
 
-@Schema({timestamps: true})
+@Schema({ timestamps: true })
 export class UserChats extends Document {
   @Prop({})
-  senderId:string
+  senderId: string;
   @Prop()
-  reciverId:string
-@Prop()
-  chatId:string
+  reciverId: string;
   @Prop()
-  message:string
+  chatId: string;
+  @Prop()
+  message: string;
 }
 
-export const UserChatsSchema = SchemaFactory.createForClass(UserChats)
+export const UserChatsSchema = SchemaFactory.createForClass(UserChats);

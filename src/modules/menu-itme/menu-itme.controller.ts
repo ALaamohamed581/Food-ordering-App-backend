@@ -13,10 +13,11 @@ import {
 import { MenuItmeService } from './menu-itme.service';
 import { MenuItemPipe } from './pipes/MenuItem.pipe';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ImagesPipe } from 'src/pipes/images.pipe';
-import { CacheInterceptor } from '@nestjs/cache-manager';
+
 import { QueryString } from 'src/types/QueryString';
 import { CreateMenuItemDto } from './dto/menuItem.dto';
+import { CacheInterceptor } from '@nestjs/cache-manager';
+import { ImagesPipe } from 'src/common/pipes/images.pipe';
 
 @Controller('menu-itmes')
 export class MenuItmeController {

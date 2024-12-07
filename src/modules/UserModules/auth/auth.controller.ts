@@ -13,10 +13,11 @@ import { Request, Response } from 'express';
 import { ApiOperation } from '@nestjs/swagger';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { JWTAuthService } from 'src/modules/utlis/JWTAuthServicer.service';
-import { SignIn } from 'src/Interceptores/signin.intecptor';
-import { Santiztion } from 'src/pipes/sanitiztaion.pip';
+
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ImagesPipe } from 'src/pipes/images.pipe';
+import { Santiztion } from 'src/common/pipes/sanitiztaion.pip';
+import { ImagesPipe } from 'src/common/pipes/images.pipe';
+import { SignIn } from 'src/common/Interceptores/signin.intecptor';
 
 @Controller('auth')
 export class AuthController {
