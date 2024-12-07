@@ -1,8 +1,12 @@
-import { ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  ArgumentsHost,
+  HttpException,
+  HttpStatus,
+  Logger,
+} from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { Request, Response } from 'express';
 import { MongooseError } from 'mongoose';
-import { MyLoggerService } from 'src/modules/my-logger/my-logger.service';
 
 type ResponseObject = {
   statusCode: number;
@@ -12,7 +16,7 @@ type ResponseObject = {
 };
 
 export class AllExceptionFilter extends BaseExceptionFilter {
-  private readonly logger = new MyLoggerService(AllExceptionFilter.name);
+  private readonly logger = new Logger(AllExceptionFilter.name);
   catch(exception: any, host: ArgumentsHost): void {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();

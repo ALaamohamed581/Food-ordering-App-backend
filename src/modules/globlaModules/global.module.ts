@@ -1,5 +1,4 @@
-import { DynamicModule, Module } from '@nestjs/common';
-import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
+import { DynamicModule, Logger, Module } from '@nestjs/common';
 import {
   AcceptLanguageResolver,
   HeaderResolver,
@@ -8,12 +7,15 @@ import {
 } from 'nestjs-i18n';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { ConfigModule } from '@nestjs/config';
-import conf from '../../config/conf';
+
 import { MongooseModule } from '@nestjs/mongoose';
-import * as path from 'path';
+import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
+
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
-import { AllExceptionFilter } from '../../common/helpers/allExceptionsFilter'; // استخدم * للتوافقية
-import { SignIn } from '../../common/Interceptores/signin.intecptor';
+import { AllExceptionFilter } from '../../common/helpers/allExceptionsFilter';
+
+import conf from '../../config/conf';
+import * as path from 'path';
 
 @Module({})
 export class GlobalModlue {
@@ -23,7 +25,7 @@ export class GlobalModlue {
       imports: [
         CacheModule.register({
           isGlobal: true,
-          ttl: 60 * 1000, // 1 minute
+          ttl: 60 * 1000,
         }),
         I18nModule.forRoot({
           fallbackLanguage: 'en',
@@ -59,9 +61,8 @@ export class GlobalModlue {
         },
         {
           provide: APP_INTERCEPTOR,
-          useValue: SignIn,
+          useClass: Logger,
         },
-
         {
           provide: APP_FILTER,
           useClass: AllExceptionFilter,
