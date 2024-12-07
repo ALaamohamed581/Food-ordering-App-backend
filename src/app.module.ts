@@ -12,7 +12,7 @@ import { CartModule } from './modules/cart/cart.module';
 import { AuthModule } from './modules/UserModules/auth/auth.module';
 import { UserModule } from './modules/UserModules/user/user.module';
 import { ChatGateway } from './common/gateways/chat/chat.gateway';
-import { GlobalModlue } from './modules/globlaModules/global.module';
+import { GlobalModlue } from './modules/globalModules/global.module';
 import { CorsConfiguration } from './common/middlewares/corsConfiguration';
 import { RequestLooger } from './common/middlewares/logger';
 import { MenuItmeModule } from './modules/menuItems/menuItems.module';
