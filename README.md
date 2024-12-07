@@ -1,6 +1,10 @@
+Here's an updated version of your **Food Ordering App** README with the additional features for live chat and a chat module included:
+
+---
+
 # Food Ordering App
 
-A streamlined food ordering application built with **NestJS**, featuring authentication, user management, restaurant and menu handling, payment integration, and file uploads.
+A streamlined food ordering application built with **NestJS**, featuring authentication, user management, restaurant and menu handling, payment integration, file uploads, and live chat.
 
 ## Key Features
 
@@ -29,7 +33,12 @@ A streamlined food ordering application built with **NestJS**, featuring authent
 
 - Integrated with **Stripe** and **PayPal** for secure payment processing.
 
-### 7. **API Documentation**
+### 7. **Real-Time Chat**
+
+- **WebSocket-based** live chat functionality for users to communicate directly with customer support or restaurant staff.
+- **Chats Module** for managing chat sessions, message history, and user interactions.
+
+### 8. **API Documentation**
 
 - Access detailed **Swagger API Documentation** at [http://localhost:8000/api/v1](http://localhost:8000/api/v1).
 
@@ -78,6 +87,8 @@ A streamlined food ordering application built with **NestJS**, featuring authent
    STRIPE_API_KEY=
    PAYPAL_CLIENT_ID=
    PAYPAL_CLIENT_SECRET=
+   CHAT_SECRET_KEY=
+   SOCKET_PORT=
    ```
 
 4. **Run the Application**  
@@ -101,5 +112,7 @@ A streamlined food ordering application built with **NestJS**, featuring authent
 - **Role-Based Permissions:** Fine-grained access control for different user roles.
 - **Payment Integration:** Handle payments using Stripe or PayPal.
 - **Cloudinary Integration:** Efficient image uploads.
+- **Real-Time Chat:** Users can engage in live chat with support or staff for assistance.
+- **Chat Management:** Persistent chat history and efficient session handling.
 
-
+---
