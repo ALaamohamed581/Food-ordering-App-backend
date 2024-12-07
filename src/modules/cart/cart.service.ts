@@ -3,7 +3,7 @@ import { CreateCartDto } from './dto/create-cart.dto';
 import { Cart } from './schams/cart.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { MenuItem } from 'src/modules/menu-itme/schemas/Resturant.schmea';
+import { MenuItem } from '../menuItems/schemas/menuItems.schmea';
 
 @Injectable()
 export class CartService {

@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type RestaurantDocument = Document;
+export type menuItem = Document;
 
 @Schema()
 export class MenuItem {

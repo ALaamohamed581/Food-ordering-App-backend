@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateRestaurntDto } from './dto/create-restaurant.dto';
 import { paginatedData, QueryString } from 'src/types/QueryString';
-import { MenuItem } from '../menu-itme/schemas/Resturant.schmea';
+import { MenuItem } from '../menuItems/schemas/menuItems.schmea';
 @Injectable()
 export class RestaurantService {
   constructor(

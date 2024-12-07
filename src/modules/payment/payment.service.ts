@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import Stripe from 'stripe';
-import { MenuItem } from '../menu-itme/schemas/Resturant.schmea';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as paypal from '@paypal/checkout-server-sdk';
 import { Cart } from '../cart/schams/cart.schema';
+import { MenuItem } from '../menuItems/schemas/menuItems.schmea';
 
 @Injectable()
 export class PaymentService {

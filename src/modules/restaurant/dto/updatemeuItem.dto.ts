@@ -1,5 +1,5 @@
 import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { MenuItem } from 'src/modules/menu-itme/schemas/Resturant.schmea';
+import { MenuItem } from 'src/modules/menuItems/schemas/menuItems.schmea';
 export class CreateRestaurntDto {
   @IsOptional()
   @IsOptional()

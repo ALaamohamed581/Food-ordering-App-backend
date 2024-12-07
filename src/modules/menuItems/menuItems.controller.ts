@@ -10,7 +10,6 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import { MenuItmeService } from './menu-itme.service';
 import { MenuItemPipe } from './pipes/MenuItem.pipe';
 import { FileInterceptor } from '@nestjs/platform-express';
 
@@ -18,6 +17,7 @@ import { QueryString } from 'src/types/QueryString';
 import { CreateMenuItemDto } from './dto/menuItem.dto';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 import { ImagesPipe } from 'src/common/pipes/images.pipe';
+import { MenuItmeService } from './menuItems.service';
 
 @Controller('menu-itmes')
 export class MenuItmeController {

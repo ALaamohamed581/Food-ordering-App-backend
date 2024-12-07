@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
-import { MenuItmeService } from './menu-itme.service';
-import { MenuItmeController } from './menu-itme.controller';
-import { MenuItem, MenuItemSchema } from './schemas/Resturant.schmea';
+
 import { MongooseModule } from '@nestjs/mongoose';
 import {
   Restaurant,
   RestaurantSchema,
 } from '../restaurant/schemas/Resturant.schmea';
+import { MenuItmeController } from './menuItems.controller';
+import { MenuItmeService } from './menuItems.service';
+import { MenuItem, MenuItemSchema } from './schemas/menuItems.schmea';
 
 @Module({
   imports: [

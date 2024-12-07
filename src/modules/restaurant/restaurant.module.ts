@@ -6,7 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import {
   MenuItem,
   MenuItemSchema,
-} from '../menu-itme/schemas/Resturant.schmea';
+} from '../menuItems/schemas/menuItems.schmea';
 
 @Module({
   imports: [

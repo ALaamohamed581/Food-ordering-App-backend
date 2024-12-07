@@ -6,7 +6,6 @@ import { AdminModule } from './modules/admin/admin.module';
 import { UtlisModule } from './modules/utlis/utlis.module';
 import { RestaurantModul } from './modules/restaurant/restaurant.module';
 import { PaymentModule } from './modules/payment/payment.module';
-import { MenuItmeModule } from './modules/menu-itme/menu-itme.module';
 import { OrderModule } from './modules/order/order.module';
 import { PermissionsModule } from './modules/permissions/permissions.module';
 import { CartModule } from './modules/cart/cart.module';
@@ -16,6 +15,7 @@ import { ChatGateway } from './common/gateways/chat/chat.gateway';
 import { GlobalModlue } from './modules/globlaModules/global.module';
 import { CorsConfiguration } from './common/middlewares/corsConfiguration';
 import { RequestLooger } from './common/middlewares/logger';
+import { MenuItmeModule } from './modules/menuItems/menuItems.module';
 
 @Module({
   imports: [

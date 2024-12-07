@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
-import { MenuItem } from 'src/modules/menu-itme/schemas/Resturant.schmea';
+import { MenuItem } from 'src/modules/menuItems/schemas/menuItems.schmea';
 
 export type RestaurantDocument = Document;
 

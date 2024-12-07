@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { MenuItem } from './schemas/Resturant.schmea';
-import { Restaurant } from '../restaurant/schemas/Resturant.schmea';
 import { QueryString } from 'src/types/QueryString';
 import { CreateMenuItemDto } from './dto/menuItem.dto';
+import { MenuItem } from './schemas/menuItems.schmea';
+import { Restaurant } from '../restaurant/schemas/Resturant.schmea';
 
 @Injectable()
 export class MenuItmeService {
