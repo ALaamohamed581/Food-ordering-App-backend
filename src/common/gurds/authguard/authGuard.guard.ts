@@ -6,7 +6,13 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JWTAuthService } from 'src/modules/utlis/JWTAuthServicer.service';
-
+import { Payload } from 'src/types/JWTTypes';
+declare module 'express' {
+  interface Request {
+    payload?: Payload;
+    queryString?: any;
+  }
+}
 export const AuthGuard = (role: string): any => {
   @Injectable()
   class AuthGuardMixin implements CanActivate {

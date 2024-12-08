@@ -1,9 +1,3 @@
-declare module 'Express' {
-  interface Request {
-    payload: Payload;
-    queryString: any;
-  }
-}
 import { MiddlewareConsumer, NestModule, Module, Logger } from '@nestjs/common';
 
 import { AppController } from './app.controller';
@@ -22,7 +16,6 @@ import { GlobalModlue } from './modules/globalModules/global.module';
 import { CorsConfiguration } from './common/middlewares/corsConfiguration';
 import { RequestLooger } from './common/middlewares/logger';
 import { MenuItmeModule } from './modules/menuItems/menuItems.module';
-import { Payload } from './types/JWTTypes';
 
 @Module({
   imports: [
