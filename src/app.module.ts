@@ -1,4 +1,4 @@
-import { Logger, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { MiddlewareConsumer, NestModule, Module, Logger } from '@nestjs/common';
 
 import { AppController } from './app.controller';
 
