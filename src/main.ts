@@ -32,7 +32,7 @@ async function bootstrap() {
     SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api/v1', app, documentFactory);
   cloudinary.config(ConfigService);
-  await app.listen(8000, () => {
+  await app.listen(process.env.PORT || 8000, () => {
     console.log('Server is running on port 8000');
   });
 }
