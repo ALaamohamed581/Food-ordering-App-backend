@@ -1,74 +1,71 @@
-
-
 # Food Ordering App
 
-A streamlined food ordering application built with **NestJS**, featuring authentication, user management, restaurant and menu handling, payment integration, file uploads, and live chat.
+A robust food ordering backend application built with **NestJS**, offering seamless features like authentication, user and restaurant management, payment processing, file uploads, and real-time communication.
 
-## Key Features
-
-### 1. **Authentication**
-
-- Separate authentication for **admin** and **users**.
-- **JWT** tokens for secure authorization.
-
-### 2. **Role-Based Access Control**
-
-- Permissions managed through **guards** for secure, role-specific access.
-
-### 3. **Restaurant Management**
-
-- Add, update, and manage restaurants.
-
-### 4. **Menu Management**
-
-- Create, update, and delete menu items.
-
-### 5. **File Uploads**
-
-- Upload images seamlessly using **Cloudinary**.
-
-### 6. **Payment Integration**
-
-- Integrated with **Stripe** and **PayPal** for secure payment processing.
-
-### 7. **Real-Time Chat**
-
-- **WebSocket-based** live chat functionality for users to communicate directly with customer support or restaurant staff.
-- **Chats Module** for managing chat sessions, message history, and user interactions.
-
-### 8. **API Documentation**
-
-- Access detailed **Swagger API Documentation** at [http://localhost:8000/api/v1](http://localhost:8000/api/v1).
+Explore the API Docs: [Food Ordering App API](https://food-ordering-app-backend-z842.onrender.com/api/v1)
 
 ---
 
-## Getting Started
+## **Key Features**
 
-### Prerequisites
+### 1. **Authentication**
+- Dedicated authentication flows for **admin** and **user** roles.
+- Secure **JWT-based authorization**.
 
-- **Node.js** (v14 or later)
-- **npm** (v6 or later)
-- **MongoDB** (Ensure MongoDB is running and `.env` has a valid connection URL).
+### 2. **Role-Based Access Control**
+- Role-specific permissions enforced using **NestJS guards**.
 
-### Setup
+### 3. **User & Admin Management**
+- CRUD operations for managing users and admin roles effectively.
+
+### 4. **Restaurant Management**
+- Comprehensive features to add, update, or delete restaurant profiles.
+
+### 5. **Menu Management**
+- Full control over menu items with options to create, update, or delete items.
+
+### 6. **File Uploads**
+- Smooth image uploads integrated with **Cloudinary**.
+
+### 7. **Payment Integration**
+- Secure and reliable payment handling with **Stripe** and **PayPal**.
+
+### 8. **Real-Time Chat**
+- **WebSocket-powered live chat** for users to connect with customer support or restaurant staff.
+- Includes a dedicated **Chats Module** to manage conversations and history.
+
+### 9. **API Documentation**
+- Detailed API documentation available at [Food Ordering App API](https://food-ordering-app-backend-z842.onrender.com/api/v1).
+
+---
+
+## **Getting Started**
+
+### **Prerequisites**
+Ensure the following are installed:
+- **Node.js** (v14+)
+- **npm** (v6+)
+- **MongoDB** (Running instance with a valid connection URL in `.env`).
+
+---
+
+### **Setup Instructions**
 
 1. **Clone the Repository**
-
    ```bash
    git clone <repository-url>
    cd <repository-folder>
    ```
 
 2. **Install Dependencies**
-
    ```bash
    npm install
    ```
 
-3. **Add Environment Variables**  
+3. **Setup Environment Variables**  
    Create a `.env` file in the root directory with the following variables:
 
-   ```plaintext
+   ```env
    MONGO_URL=
    ADMIN_REFRESH_TOKEN_SECRET=
    ADMIN_AUTH_TOKEN_SECRET=
@@ -85,31 +82,28 @@ A streamlined food ordering application built with **NestJS**, featuring authent
    STRIPE_API_KEY=
    PAYPAL_CLIENT_ID=
    PAYPAL_CLIENT_SECRET=
-  
    ```
 
-4. **Run the Application**  
-   Start the application in development mode:
-
+4. **Run the Application**
+   Start the server in development mode:
    ```bash
    npm run start:dev
    ```
 
-5. **Access API Documentation**  
-   Open [http://localhost:8000/api/v1](http://localhost:8000/api/v1) in your browser.
+
 
 ---
 
-## Highlights
+## **Features in Detail**
 
-- **Authentication:** Secure JWT-based authentication for users and admins.
-- **User Management:** CRUD operations for managing user data.
-- **Restaurant Module:** Streamlined operations for managing restaurant data.
-- **Menu Items:** Easy addition and management of menu items.
-- **Role-Based Permissions:** Fine-grained access control for different user roles.
-- **Payment Integration:** Handle payments using Stripe or PayPal.
-- **Cloudinary Integration:** Efficient image uploads.
-- **Real-Time Chat:** Users can engage in live chat with support or staff for assistance.
-- **Chat Management:** Persistent chat history and efficient session handling.
+- **Secure Authentication:** Separate login flows for admins and users with token-based security.
+- **Fine-Grained Access Control:** Guard-based permission management for better security.
+- **Restaurant & Menu Management:** Easy-to-use modules for managing restaurants and their menus.
+- **Integrated Payment Processing:** Utilize **Stripe** and **PayPal** for handling transactions.
+- **Efficient File Management:** Image uploads and storage powered by **Cloudinary**.
+- **Live Chat:** Real-time WebSocket-based communication to enhance user interaction.
+- **Persistent Chat History:** Store and retrieve chat logs for better customer support.
 
 ---
+
+This application is built to simplify the backend management of food ordering platforms, ensuring scalability, security, and user-friendliness. Start building and customizing your food ordering service today!
